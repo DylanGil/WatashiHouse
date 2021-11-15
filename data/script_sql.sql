@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS watashi_house;
+create database watashi_house;
+use watashi_house;
+
 #------------------------------------------------------------
 #        Script MySQL.
 #------------------------------------------------------------
@@ -11,29 +15,6 @@ CREATE TABLE Categorie(
         id_categorie Int  Auto_increment  NOT NULL ,
         nom          Varchar (30) NOT NULL
 	,CONSTRAINT Categorie_PK PRIMARY KEY (id_categorie)
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Article
-#------------------------------------------------------------
-
-CREATE TABLE Article(
-        id_article   Int  Auto_increment  NOT NULL ,
-        nom          Varchar (100) NOT NULL ,
-        description  Varchar (500) NOT NULL ,
-        images       Varchar (500) NOT NULL ,
-        categorie    Varchar (50) NOT NULL ,
-        collection   Varchar (50) NOT NULL ,
-        couleur      Varchar (30) NOT NULL ,
-        prix         Float NOT NULL ,
-        nbAvis       Int NOT NULL ,
-        note         Int NOT NULL ,
-        stock        Int NOT NULL ,
-        id_categorie Int NOT NULL
-	,CONSTRAINT Article_PK PRIMARY KEY (id_article)
-
-	,CONSTRAINT Article_Categorie_FK FOREIGN KEY (id_categorie) REFERENCES Categorie(id_categorie)
 )ENGINE=InnoDB;
 
 
@@ -87,6 +68,52 @@ CREATE TABLE Commandes(
 	,CONSTRAINT Commandes_PK PRIMARY KEY (id_commande)
 
 	,CONSTRAINT Commandes_Utilisateur_FK FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Collection
+#------------------------------------------------------------
+
+CREATE TABLE Collection(
+        id_collection Int  Auto_increment  NOT NULL ,
+        nom           Varchar (30) NOT NULL
+	,CONSTRAINT Collection_PK PRIMARY KEY (id_collection)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Article
+#------------------------------------------------------------
+
+CREATE TABLE Article(
+        id_article    Int  Auto_increment  NOT NULL ,
+        nom           Varchar (100) NOT NULL ,
+        description   Varchar (500) NOT NULL ,
+        images        Varchar (500) NOT NULL ,
+        couleur       Varchar (30) NOT NULL ,
+        prix          Float NOT NULL ,
+        nbAvis        Int NOT NULL ,
+        note          Int NOT NULL ,
+        stock         Int NOT NULL ,
+        id_collection Int
+	,CONSTRAINT Article_PK PRIMARY KEY (id_article)
+
+	,CONSTRAINT Article_Collection_FK FOREIGN KEY (id_collection) REFERENCES Collection(id_collection)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Appartenir
+#------------------------------------------------------------
+
+CREATE TABLE Appartenir(
+        id_article   Int NOT NULL ,
+        id_categorie Int NOT NULL
+	,CONSTRAINT Appartenir_PK PRIMARY KEY (id_article,id_categorie)
+
+	,CONSTRAINT Appartenir_Article_FK FOREIGN KEY (id_article) REFERENCES Article(id_article)
+	,CONSTRAINT Appartenir_Categorie0_FK FOREIGN KEY (id_categorie) REFERENCES Categorie(id_categorie)
 )ENGINE=InnoDB;
 
 
