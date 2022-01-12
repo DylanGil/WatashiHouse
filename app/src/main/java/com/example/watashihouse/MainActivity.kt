@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     fun SetButtonEvent(){
         buttonTestView.setOnClickListener{
             //monCode
-            textViewTestView.text = "monString"
+            textViewTestView.text = "monString" //testCommit
         }
     }
 }
