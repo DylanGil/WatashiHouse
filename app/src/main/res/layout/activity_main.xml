@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,133 +7,51 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textViewTest"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutHeader"
+        android:layout_width="410dp"
+        android:layout_height="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/watashiHouseImage"
+            android:layout_width="77dp"
+            android:layout_height="67dp"
+            android:layout_marginStart="157dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="157dp"
+            android:contentDescription="logoWatashiHouse"
+            app:srcCompat="@drawable/watashihouse" />
+
+        <View
+            android:id="@+id/dividerTop"
+            android:layout_width="409dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/watashiHouseImage"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="1dp"
+            android:background="?android:attr/listDivider"
+            android:backgroundTint="#F3F1F0"
+            android:backgroundTintMode="screen" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_below="@+id/relativeLayoutHeader" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentBottom="true"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_navigation" />
 
-    <Button
-        android:id="@+id/buttonTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="94dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="213dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTest"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/watashiHouseImage"
-        android:layout_width="89dp"
-        android:layout_height="89dp"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="157dp"
-        android:contentDescription="logoWatashiHouse"
-        app:layout_constraintBottom_toTopOf="@+id/dividerTop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75"
-        app:srcCompat="@drawable/watashihouse" />
-
-    <View
-        android:id="@+id/dividerTop"
-        android:layout_width="409dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="1dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="#000000"
-        android:backgroundTintMode="screen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/dividerBottom"
-        android:layout_width="409dp"
-        android:layout_height="2dp"
-        android:layout_marginBottom="80dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="#000000"
-        android:backgroundTintMode="screen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/buttonHome"
-        android:layout_width="59dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dividerBottom"
-        app:srcCompat="@drawable/blackhomeicon"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/buttonSearch"
-        android:layout_width="59dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/buttonHome"
-        app:layout_constraintTop_toBottomOf="@+id/dividerBottom"
-        app:srcCompat="@drawable/blacksearchicon"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/buttonCoeur"
-        android:layout_width="59dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/buttonSearch"
-        app:layout_constraintTop_toBottomOf="@+id/dividerBottom"
-        app:srcCompat="@drawable/blackhearticon"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/buttonPanier"
-        android:layout_width="59dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FFFFFF"
-        android:contentDescription="panierIcon"
-        app:layout_constraintStart_toEndOf="@+id/buttonCoeur"
-        app:layout_constraintTop_toBottomOf="@+id/dividerBottom"
-        app:srcCompat="@drawable/blackpaniericon"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/buttonProfile"
-        android:layout_width="59dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/buttonPanier"
-        app:layout_constraintTop_toBottomOf="@+id/dividerBottom"
-        app:srcCompat="@drawable/blackprofileicon"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
