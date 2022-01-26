@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutHeader"
+        android:layout_width="410dp"
+        android:layout_height="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/watashiHouseImage"
+            android:layout_width="77dp"
+            android:layout_height="67dp"
+            android:layout_marginStart="157dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="157dp"
+            android:contentDescription="logoWatashiHouse"
+            app:srcCompat="@drawable/watashihouse" />
+
+        <View
+            android:id="@+id/dividerTop"
+            android:layout_width="409dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/watashiHouseImage"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="1dp"
+            android:background="?android:attr/listDivider"
+            android:backgroundTint="#F3F1F0"
+            android:backgroundTintMode="screen" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_below="@+id/relativeLayoutHeader" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_navigation" />
+
+</RelativeLayout>
