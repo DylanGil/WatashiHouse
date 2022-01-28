@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.watashihouse.ui.login.LoginFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val searchFragment = SearchFragment()
         val favorisFragment = FavorisFragment()
         val shoppingCartFragment = ShoppingCartFragment()
-        val profileFragment = ProfileFragment()
+        val userFragment = LoginFragment()
         makeCurrentFragment(homeFragment)
 
         bottom_nav_view.setOnItemSelectedListener {
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_search -> makeCurrentFragment(searchFragment)
                 R.id.nav_favorite -> makeCurrentFragment(favorisFragment)
                 R.id.nav_cart -> makeCurrentFragment(shoppingCartFragment)
-                R.id.nav_profile -> makeCurrentFragment(profileFragment)
+                R.id.nav_user -> makeCurrentFragment(userFragment)
             }
             true
         }
