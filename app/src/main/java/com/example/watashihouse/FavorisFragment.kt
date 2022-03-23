@@ -1,18 +1,32 @@
-package com.example.watashihouse;
+package com.example.watashihouse
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.example.watashihouse.databinding.FragmentFavorisBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+class FavorisFragment : Fragment() {
 
-public class FavorisFragment extends Fragment {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_favoris, container, false);
+    private var _binding: FragmentFavorisBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = FragmentFavorisBinding.inflate(inflater, container, false)
+
+        primaryFunction()
+        return binding.root
     }
+
+    private fun primaryFunction(){
+        binding.favorisText.text = "monFavoris"
+
+    }
+
 }

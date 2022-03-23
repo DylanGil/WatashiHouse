@@ -8,9 +8,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="homeFragment"
+        android:id="@+id/testTextView"
         android:textSize="30sp"
         android:layout_centerInParent="true"
         />
+
+    <Button
+        android:id="@+id/buttonTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/testTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="115dp"
+        android:text="TEESST" />
 
 
 </RelativeLayout>

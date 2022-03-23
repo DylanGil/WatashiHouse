@@ -1,18 +1,36 @@
-package com.example.watashihouse;
+package com.example.watashihouse
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.watashihouse.databinding.FragmentHomeBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+class HomeFragment : Fragment() {
 
-public class HomeFragment extends Fragment {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        primaryFunction()
+        return binding.root
     }
+
+    private fun primaryFunction(){
+        binding.buttonTest.setOnClickListener{
+            binding.testTextView.text = "qsdqsd"
+            Toast.makeText(activity,"monToast",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
 }
