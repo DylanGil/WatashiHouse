@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="homeFragment"
-        android:id="@+id/testTextView"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/constraintLayoutHome">
 
-    <Button
-        android:id="@+id/buttonTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/testTextView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="159dp"
-        android:layout_marginBottom="115dp"
-        android:text="TEESST" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_class"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </RelativeLayout>
