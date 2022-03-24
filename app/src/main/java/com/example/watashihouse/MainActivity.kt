@@ -2,6 +2,8 @@ package com.example.watashihouse
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
@@ -15,12 +17,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var textViewTestView: TextView
     private lateinit var buttonTestView: TextView
-    lateinit var recyclerViewMeuble: RecyclerView
+    //lateinit var recyclerViewMeuble: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        recyclerViewMeuble = findViewById(R.id.recyclerViewHome)
+        //recyclerViewMeuble = findViewById(R.id.recyclerViewHome)
         CreateElement()
         //SetButtonEvent()
     }
@@ -29,16 +31,12 @@ class MainActivity : AppCompatActivity() {
         //textViewTestView = findViewById(R.id.textViewTest)
         //buttonTestView = findViewById<Button>(R.id.buttonTest)
 
-        val items = listOf(
-            Meuble("Rich dad poor dad", "test temp summary", R.drawable.book1, 4.5F, "Dylan GIL AMARO"),
-            Meuble("Rich dad poor dad", "test temp summary", R.drawable.book2, 3.5F, "Dylan GIL AMARO"),
-            Meuble("Rich dad poor dad", "test temp summary", R.drawable.book3, 2.2F, "Dylan GIL AMARO"),
-            Meuble("Rich dad poor dad", "test temp summary", R.drawable.book4, 5F, "Dylan GIL AMARO"),
-        )
-        recyclerViewMeuble.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = MeubleAdapter(items)
-        }
+        /**val layout = FrameLayout(this)
+        layout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
+        layout.id = R.id.layout
+        setContentView(layout)
+
+        supportFragmentManager.beginTransaction().add(R.id.layout, HomeFragment()).commit()*/
 
         val bottom_nav_view = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val homeFragment = HomeFragment()

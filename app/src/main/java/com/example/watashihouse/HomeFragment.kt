@@ -34,11 +34,11 @@ class HomeFragment : Fragment() {
             Meuble("Rich dad poor dad", "test temp summary", R.drawable.book4, 5F, "Dylan GIL AMARO"),
         )
         recyclerViewMeuble.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(this.context)
             adapter = MeubleAdapter(items)
         }
 
-        return binding.root
+        return view
     }
 
 }

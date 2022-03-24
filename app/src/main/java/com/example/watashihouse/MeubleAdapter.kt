@@ -20,13 +20,12 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
     override fun onBindViewHolder(holder: MeubleViewHolder, position: Int) {
         val book = items[position]
         holder.bind(book)
-
-
     }
 
     override fun getItemCount() = items.size
 
-    inner class MeubleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class MeubleViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView.rootView){
+
 
         var tvTitle: TextView
         var tvSummary: TextView
