@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    app:cardCornerRadius="8dp"
+    android:padding="8dp"
+    android:layout_margin="4dp"
+    app:cardElevation="16dp"
+    app:cardBackgroundColor="#1A192B"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageBook"
+            android:layout_width="100dp"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:layout_margin="8dp"
+            tools:src="@drawable/book1"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imageBook"
+            android:layout_marginTop="10dp"
+            tools:text="Riche dad poor dad"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAllCaps="true"
+            />
+
+        <TextView
+            android:id="@+id/tvAuthorHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:layout_toEndOf="@+id/imageBook"
+            android:text="Author:"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/tvAuthorHint"
+            android:textColor="@color/white"
+            tools:text="Robert KIYOSAKI" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvAuthorHint"
+            android:layout_toEndOf="@id/imageBook"
+            android:progressTint="@color/yellowStars"
+            android:secondaryProgressTint="#FF5722"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            tools:rating="4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Summary: "
+            android:layout_above="@+id/tvSummary"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/imageBook"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@+id/imageBook"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam sollicitudin tempor. Vivamus semper nisl leo, at elementum nibh semper ac. Donec ac justo molestie, cursus est at, vestibulum quam. Morbi sodales turpis ac massa efficitur tempus. Vestibulum scelerisque purus sed rhoncus dapibus. Nam purus ex, vestibulum a quam sit amet, fermentum vehicula nibh. Nam lacinia mi sit amet est pulvinar vestibulum.
+
+Nullam quis lacinia neque. Praesent a accumsan augue, eu malesuada libero. Donec egestas efficitur dui ut ultrices. Ut vel urna risus. Morbi sapien ligula, posuere sed tristique non, commodo sed nulla. Quisque eget nisl a mi congue porta ut ut augue. Maecenas scelerisque ipsum a felis porttitor, ac efficitur magna commodo. Vivamus dignissim neque eu nisi malesuada sodales. Vivamus faucibus, est et luctus luctus, enim velit posuere ex, suscipit tincidunt enim metus ac enim. Phasellus posuere in libero eu iaculis. Cras in nisi vitae mi laoreet rutrum non non eros. Fusce id erat sit amet nibh dictum lobortis. Nam tempus dapibus sem, quis volutpat ex fermentum vitae.
+
+Fusce aliquet justo at nulla molestie, in pellentesque velit condimentum. Etiam aliquam dolor augue. Suspendisse turpis justo, cursus vel vehicula eget, scelerisque at ligula. Mauris non enim cursus, dapibus enim id, fermentum urna. Nunc id lacus porta, convallis dui non, condimentum velit. Vivamus rhoncus mattis arcu ut cursus. Praesent rutrum, odio nec ullamcorper dignissim, sem enim viverra neque, at varius turpis nisl non dui. Nullam commodo neque ac iaculis tristique. In id sollicitudin elit. Aenean ultrices sed odio a consequat. Duis est lorem, luctus quis suscipit venenatis, varius quis purus. Vivamus ac varius quam. Suspendisse at eros neque.
+
+Proin ornare varius lectus eget tristique. Fusce hendrerit, ipsum vel malesuada ultricies, eros orci pharetra nisl, vel vestibulum dolor eros eu ligula. Sed ut pellentesque lectus. Duis nec ligula sed elit vestibulum imperdiet sodales quis ipsum. Cras sit amet lobortis sem. In nisi tortor, convallis quis fermentum a, rhoncus quis lacus. Mauris eu mi ut ex fringilla commodo. Nullam id quam ac arcu varius scelerisque. Ut condimentum convallis justo in gravida. Duis eget lobortis nulla. Curabitur ac nunc quis justo bibendum finibus. Morbi metus dui, commodo in orci sollicitudin, elementum bibendum ligula. Etiam ut faucibus augue, sit amet vehicula augue.
+
+Integer tempus semper luctus. Quisque vehicula tempor sodales. Donec id laoreet arcu, mattis condimentum erat. Curabitur nunc mauris, vulputate sit amet aliquam id, dictum a ante. Aliquam pretium euismod ultrices. Etiam tristique leo nisi, a accumsan est porttitor in. Suspendisse potenti. Aenean mollis finibus commodo."
+            />
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>
