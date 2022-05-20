@@ -23,12 +23,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.log
 
-class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>() {
+class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerView.Adapter<MeubleAdapterDeleteButton.MeubleViewHolder>() {
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeubleViewHolder {
-        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class, parent, false)
+        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class_delete_button, parent, false)
         return MeubleViewHolder(itemView)
     }
 
@@ -46,7 +46,6 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
         var meublePrice: TextView
         var meubleImage: ImageView
         var ratingBar: RatingBar
-        var addToCart: Button
         private lateinit var dataStore: DataStore<Preferences>
 
         init {
@@ -55,38 +54,16 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             meublePrice = itemView.findViewById(R.id.meublePrice)
             meubleImage = itemView.findViewById(R.id.meubleImage)
             ratingBar = itemView.findViewById(R.id.ratingBar)
-            addToCart = itemView.findViewById(R.id.addToCartButton)
             dataStore = itemView.context.createDataStore(name = "meubleStored")
 
         }
 
-        private suspend fun saveToLocalStorage(key: String, value: Set<String>){
-            val dataStoreKey = preferencesSetKey<String>(key)
-            dataStore.edit { meubleStored ->
-                //Log.d("abc", meubleStored.toString())
-               meubleStored[dataStoreKey] = value
-            }
-        }
-
-        fun bind(meuble: Meuble) {
+        fun bind(meuble: MeubleDeleteButton) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
-            addToCart.text = "Ajouter au panier"
-
-            Log.d("itemView",itemView.context.toString())
-
-            addToCart.setOnClickListener {
-                Toast.makeText(itemView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
-                itemView.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
-                    //saveToLocalStorage("title", meuble.title)
-                    val monSet = setOf(meuble.title,meuble.summary, R.drawable.book1.toString(), meuble.rating.toString(),  meuble.price + "€")
-                    saveToLocalStorage(meuble.title, monSet)
-
-                }
-            }
         }
 
     }

@@ -1,6 +1,6 @@
 package com.example.watashihouse
 
-data class Meuble (
+data class MeubleDeleteButton (
     var title: String,
     var summary: String,
     var image: Int,
