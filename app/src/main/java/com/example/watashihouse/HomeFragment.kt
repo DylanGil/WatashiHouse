@@ -1,32 +1,23 @@
 package com.example.watashihouse
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelLazy
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.databinding.FragmentHomeBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
-import com.squareup.picasso.Picasso
-import com.unbreakfurnitures.unbreakablefurnituresapp.service.RetrofitApi
-import kotlinx.coroutines.launch
-import org.json.JSONObject
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 class HomeFragment : Fragment() {
@@ -48,10 +39,15 @@ class HomeFragment : Fragment() {
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewHome) as RecyclerView
         loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
 
+        val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .build()
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://chrome-backbone-347212.ew.r.appspot.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
 
         val products = retrofit.create(WatashiApiLocal::class.java)
