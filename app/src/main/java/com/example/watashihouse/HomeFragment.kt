@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
 
         val weatherService = retrofit.create(WatashiApiLocal::class.java)
 
-        val result = weatherService.urlParams()
+        val result = weatherService.getAllProducts()
 
         val listOfMeuble = mutableListOf<Meuble>()
 

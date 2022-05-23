@@ -76,13 +76,10 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             meublePrice.text = meuble.price + "€"
             addToCart.text = "Ajouter au panier"
 
-            Log.d("itemView",itemView.context.toString())
-
             addToCart.setOnClickListener {
                 Toast.makeText(itemView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
                 itemView.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
-                    //saveToLocalStorage("title", meuble.title)
-                    val monSet = setOf(meuble.title,meuble.summary, R.drawable.book1.toString(), meuble.rating.toString(),  meuble.price + "€")
+                    val monSet = setOf(meuble.title,meuble.summary, meuble.image.toString(), meuble.rating.toString(),  meuble.price + "€")
                     saveToLocalStorage(meuble.title, monSet)
 
                 }
