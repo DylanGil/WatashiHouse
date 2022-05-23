@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
                 //t.message?.let { Log.i("MON PUTAIN DE TAG", it) }
                 //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
                 loadingCircle.visibility = View.INVISIBLE
-                Toast.makeText(context, "Erreur serveur: redémarrer l'application", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
             }
 
 
