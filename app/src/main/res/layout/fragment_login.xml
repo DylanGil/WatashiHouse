@@ -13,10 +13,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="90dp"
         android:gravity="center"
-        android:textColor="@color/black"
-        android:text="Username"/>
+        android:text="Username"
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editTextTextUsername"
@@ -63,6 +63,6 @@
         android:layout_below="@+id/editTextTextPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="Button" />
+        android:text="Se connecter" />
 
 </RelativeLayout>

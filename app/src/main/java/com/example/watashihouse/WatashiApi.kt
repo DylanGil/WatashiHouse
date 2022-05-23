@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface UserApi {
+interface WatashiApi {
     @POST("utilisateurs/connexion")
     fun login(
         @Body userRequest: UserRequest
@@ -14,4 +14,7 @@ interface UserApi {
 
     @GET("/articles?sortBy=name")
     fun getAllProducts(): Call<JsonObject>
+
+    //@GET("/user/{id}")
+    //suspend fun getUser(@Path("id") id: String): Response<User>
 }

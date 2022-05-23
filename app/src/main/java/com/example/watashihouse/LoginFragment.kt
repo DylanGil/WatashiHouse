@@ -14,7 +14,6 @@ import com.example.watashihouse.databinding.FragmentLoginBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 
 class LoginFragment : Fragment() {
@@ -56,7 +55,7 @@ class LoginFragment : Fragment() {
         request.email = emailTxt.text.toString().trim()
         request.hash = passwordTxt.text.toString().trim()
 
-        val retro = Retro().getRetroClientInstance().create(UserApi::class.java)
+        val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
         retro.login(request).enqueue(object : Callback<UserResponse>{
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 val user = response.body()
