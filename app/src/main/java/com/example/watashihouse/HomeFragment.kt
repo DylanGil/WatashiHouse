@@ -39,25 +39,10 @@ class HomeFragment : Fragment() {
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewHome) as RecyclerView
         loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
 
-        val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://chrome-backbone-347212.ew.r.appspot.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-        val products = retrofit.create(WatashiApiLocal::class.java)
-
-        val result = products.getAllProducts()
-
         val listOfMeuble = mutableListOf<Meuble>()
 
-        result.enqueue(object : Callback<JsonObject> {
-
+        val retro = Retro().getRetroClientInstance().create(UserApi::class.java)
+        retro.getAllProducts().enqueue(object : Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if(response.isSuccessful){
 
@@ -104,9 +89,6 @@ class HomeFragment : Fragment() {
                 loadingCircle.visibility = View.INVISIBLE
                 Toast.makeText(context, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
             }
-
-
-
         })
 
         return view
