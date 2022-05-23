@@ -7,17 +7,17 @@
     android:background="@android:color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutShoppingCart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/constraintLayoutShoppingCart">
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/deleteLocalStorageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vider le panier"
-            android:backgroundTint="#1A192B"
             android:layout_marginEnd="135dp"
+            android:backgroundTint="#1A192B"
+            android:text="Vider le panier"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,10 +28,79 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/deleteLocalStorageButton"
             android:layout_marginTop="44dp"
+            android:layout_marginBottom="90dp"
             app:layout_constraintTop_toBottomOf="@+id/deleteLocalStorageButton"
             tools:itemCount="5"
             tools:layout_editor_absoluteX="205dp"
             tools:listitem="@layout/item_class_delete_button" />
+
+        <RelativeLayout
+            android:id="@+id/bottomTotalShopping"
+            android:layout_width="409dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="-48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewShoppingCart"
+
+            >
+
+            <View
+                android:id="@+id/dividerTop"
+                android:layout_width="409dp"
+                android:layout_height="2dp"
+
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black"
+                android:backgroundTintMode="screen" />
+
+            <TextView
+                android:id="@+id/totalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dividerTop"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="14dp"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Prix :" />
+
+            <TextView
+                android:id="@+id/totalNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dividerTop"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="31dp"
+                android:gravity="right"
+                android:text="49€"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottomValidateShopping"
+            android:layout_width="409dp"
+            android:layout_height="40dp"
+            android:background="#1A192B"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bottomTotalShopping">
+
+            <Button
+                android:id="@+id/validateShopppingButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#1A192B"
+                android:text="Valider mon panier"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -10,12 +10,17 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
+import com.unbreakfurnitures.unbreakablefurnituresapp.service.RetrofitApi
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,14 +50,13 @@ class HomeFragment : Fragment() {
 
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://chrome-backbone-347212.ew.r.appspot.com/articles/")
-            //.baseUrl("https://api.openweathermap.org/data/2.5/weather/")
+            .baseUrl("https://chrome-backbone-347212.ew.r.appspot.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val weatherService = retrofit.create(WatashiApiLocal::class.java)
+        val products = retrofit.create(WatashiApiLocal::class.java)
 
-        val result = weatherService.getAllProducts()
+        val result = products.getAllProducts()
 
         val listOfMeuble = mutableListOf<Meuble>()
 

@@ -5,13 +5,12 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface WatashiApiLocal {
 
-    //@GET("entries")
-    //@GET("?q=Paris&appid=60f94176979d0cce3f7fbfc3167eaac1")
-    @GET("?sortBy=name")
+    @GET("/articles?sortBy=name")
     fun getAllProducts(): Call<JsonObject>
-    //@GET("users")
-    //suspend fun getUsers(): Response<MutableList<User>>
+    //@GET("/user/{id}")
+    //suspend fun getUser(@Path("id") id: String): Response<User>666+6+6+
 }

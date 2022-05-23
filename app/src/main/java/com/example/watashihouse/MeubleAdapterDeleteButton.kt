@@ -63,7 +63,7 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
             meubleSummary.text = meuble.summary
             meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
-            meublePrice.text = meuble.price + "€"
+            meublePrice.text = meuble.price
         }
 
     }

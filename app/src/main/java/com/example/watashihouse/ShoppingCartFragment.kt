@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.databinding.FragmentShoppingCartBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlin.collections.Collection
 
 class ShoppingCartFragment : Fragment() {
 
@@ -26,6 +28,7 @@ class ShoppingCartFragment : Fragment() {
     private lateinit var dataStore: DataStore<Preferences>
     lateinit var recyclerViewMeuble: RecyclerView
     private lateinit var deleteLocalStorageButton: Button
+    private lateinit var totalNumberText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +39,7 @@ class ShoppingCartFragment : Fragment() {
         _binding = FragmentShoppingCartBinding.inflate(inflater, container, false)
         var view = inflater.inflate(R.layout.fragment_shopping_cart, container, false)
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewShoppingCart) as RecyclerView
+        totalNumberText = view.findViewById(R.id.totalNumberText) as TextView
         deleteLocalStorageButton = view.findViewById(R.id.deleteLocalStorageButton)
         deleteLocalStorageButton.setOnClickListener {
             Toast.makeText(context, "Le panier a bien été vidé", Toast.LENGTH_SHORT).show()
@@ -60,6 +64,7 @@ class ShoppingCartFragment : Fragment() {
 
     private suspend fun readFromLocalStorage(){
         val listOfMeuble = mutableListOf<MeubleDeleteButton>()
+        var prixTotalPanier = 0.0
 
         val preferences = dataStore.data.first()
         val preferencesMap = preferences.asMap()
@@ -70,6 +75,9 @@ class ShoppingCartFragment : Fragment() {
             var meubleImage= values.elementAt(2).toString().toInt()
             var meubleAvis = values.elementAt(3).toString().toFloat()
             var meublePrix = values.elementAt(4).toString()
+            var priceString = meublePrix.dropLast(1)
+            priceString = priceString.replace(",",".")
+            prixTotalPanier += priceString.toDouble()
 
             /**values.forEach{attribute -> //permet de recup les attributs de mon meuble
                 Log.d("unAtt", attribute.toString())
@@ -79,6 +87,7 @@ class ShoppingCartFragment : Fragment() {
             //Log.d("alors ?", newMeuble.toString())
 
         }
+        totalNumberText.text = prixTotalPanier.toString() + "€"
         recyclerViewMeuble.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MeubleAdapterDeleteButton(listOfMeuble)
