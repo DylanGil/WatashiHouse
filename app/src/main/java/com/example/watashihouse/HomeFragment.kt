@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     //private var recyclerView = binding.recyclerViewHome as RecyclerView
     lateinit var recyclerViewMeuble: RecyclerView
+    lateinit var loadingCircle: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewHome) as RecyclerView
+        loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
 
 
         val retrofit = Retrofit.Builder()
@@ -54,6 +57,7 @@ class HomeFragment : Fragment() {
         val listOfMeuble = mutableListOf<Meuble>()
 
         result.enqueue(object : Callback<JsonObject> {
+
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if(response.isSuccessful){
 
@@ -90,12 +94,14 @@ class HomeFragment : Fragment() {
                         adapter = MeubleAdapter(listOfMeuble)
                     }
                 }
+                loadingCircle.visibility = View.INVISIBLE
 
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 //t.message?.let { Log.i("MON PUTAIN DE TAG", it) }
                 //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+                loadingCircle.visibility = View.INVISIBLE
                 Toast.makeText(context, "Erreur serveur: redémarrer l'application", Toast.LENGTH_SHORT).show()
             }
 
