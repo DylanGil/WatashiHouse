@@ -12,5 +12,15 @@
         android:id="@+id/searchText"
         android:textSize="30sp" />
 
+    <Button
+        android:id="@+id/buttonToActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="161dp"
+        android:text="Button" />
+
 
 </RelativeLayout>

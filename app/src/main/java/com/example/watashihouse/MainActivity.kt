@@ -1,5 +1,6 @@
 package com.example.watashihouse
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -53,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         val shoppingCartFragment = ShoppingCartFragment()
         val userFragment = LoginFragment()
         makeCurrentFragment(homeFragment)
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
 
         bottom_nav_view.setOnItemSelectedListener {
             when(it.itemId){
@@ -70,8 +73,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope?.launch{
 
         val preferences = dataStore.data.first()
-        val preferencesMap = preferences.asMap()
-            preferencesNumber = preferencesMap.size
+            preferencesNumber = preferences.asMap().size
 
             bottom_nav_view.getOrCreateBadge(R.id.nav_cart).apply {
                 number = preferencesNumber

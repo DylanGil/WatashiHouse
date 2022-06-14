@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutHeader"
+        android:layout_width="410dp"
+        android:layout_height="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/watashiHouseImage"
+            android:layout_width="77dp"
+            android:layout_height="67dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="157dp"
+            android:contentDescription="logoWatashiHouse"
+            app:srcCompat="@drawable/watashihouse" />
+
+        <View
+            android:id="@+id/dividerTop"
+            android:layout_width="409dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/watashiHouseImage"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="1dp"
+            android:background="?android:attr/listDivider"
+            android:backgroundTint="#F3F1F0"
+            android:backgroundTintMode="screen" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="176dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/relativeLayoutHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:text="Email"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/black"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="Email"
+        android:textColor="@color/black"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/tvPassword"
+        android:layout_width="176dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/editTextEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="56dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:text="Password" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/black"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="Password"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Se connecter" />
+
+</RelativeLayout>
