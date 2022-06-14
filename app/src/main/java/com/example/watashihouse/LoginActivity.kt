@@ -1,5 +1,6 @@
 package com.example.watashihouse
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -49,6 +50,9 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_SHORT).show()
                     Log.e("hash", user!!.token.toString())
                     //passwordTxt.text = Editable.Factory.getInstance().newEditable(user!!.token)
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("result", 42)
+                    setResult(RESULT_OK, resultIntent)
                     finish()
                 }else{
                     Toast.makeText(applicationContext, "User inexistant", Toast.LENGTH_SHORT).show()

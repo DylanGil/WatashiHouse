@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
@@ -20,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val userFragment = LoginFragment()
         makeCurrentFragment(homeFragment)
         val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent, 1)
 
         bottom_nav_view.setOnItemSelectedListener {
             when(it.itemId){
@@ -83,6 +85,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    protected override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1){
+            if(resultCode !== RESULT_OK){ //le user a cliqué sur le bouton revenir en arriere
+                Toast.makeText(applicationContext, "NUUUUUUUL", Toast.LENGTH_SHORT).show()
+                this@MainActivity.finish()
+                exitProcess(0)
+            }
+        }
     }
 
     private fun makeCurrentFragment(fragment: Fragment) {
