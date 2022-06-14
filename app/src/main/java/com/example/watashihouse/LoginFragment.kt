@@ -8,9 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import com.auth0.android.jwt.JWT
 import com.example.watashihouse.databinding.FragmentLoginBinding
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,9 +31,10 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var button: Button
-    lateinit var emailTxt: EditText
-    lateinit var passwordTxt:EditText
+    lateinit var emailTxt: TextView
+    lateinit var firstNameTxt: TextView
+    lateinit var lastNameTxt: TextView
+    private lateinit var dataStore: DataStore<Preferences>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,55 +45,40 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         val view = inflater.inflate(R.layout.fragment_login, container, false)
-        button = view.findViewById(R.id.LoginButton) as Button
-        emailTxt = view.findViewById(R.id.editTextTextUsername) as EditText
-        passwordTxt = view.findViewById(R.id.editTextTextPassword) as EditText
-
+        emailTxt = view.findViewById(R.id.tvEmail) as TextView
+        firstNameTxt = view.findViewById(R.id.tvFirstName) as TextView
+        lastNameTxt = view.findViewById(R.id.tvLastName) as TextView
+        dataStore = context?.createDataStore(name = "jwt")!!
         initAction()
-
-        primaryFunction()
         return view
     }
 
     private fun initAction() {
-        button?.setOnClickListener {
-            login()
+        lifecycleScope.launch {
+            var jwt = readfromLocalStorage("jwt")?.let { JWT(it) }
+            firstNameTxt.text = jwt?.getClaim("firstname")?.asString().toString()
+            lastNameTxt.text = jwt?.getClaim("lastname")?.asString().toString()
+            emailTxt.text = jwt?.getClaim("email")?.asString().toString()
         }
     }
 
-    private fun login() {
-        val request = UserRequest()
-        request.email = emailTxt.text.toString().trim()
-        request.hash = passwordTxt.text.toString().trim()
-
-        val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-        retro.login(request).enqueue(object : Callback<UserResponse>{
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                val user = response.body()
-                if(user != null){
-                    Toast.makeText(context, "User trouvé", Toast.LENGTH_SHORT).show()
-                    Log.e("hash", user!!.token.toString())
-                    passwordTxt.text = Editable.Factory.getInstance().newEditable(user!!.token)
-                }else{
-                    Toast.makeText(context, "User inexistant", Toast.LENGTH_SHORT).show()
-                }
-                /*Log.e("hash", user!!.data?.hash.toString())
-                Log.e("email", user!!.data?.email.toString())*/
-            }
-
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Toast.makeText(context, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
-                Log.e("Error", t.message.toString())
-            }
-
-        })
+    private suspend fun readfromLocalStorage(key: String): String? {
+        val dataStoreKey = preferencesKey<String>(key)
+        val preferences = dataStore.data.first()
+        return preferences[dataStoreKey]
     }
 
-
-    private fun primaryFunction(){
-        //binding.favorisText.text = "monFavoris"
-
-
+    private fun readJWTJustForInfo() { //just for info
+        lifecycleScope.launch {
+            var jwt = readfromLocalStorage("jwt")?.let { JWT(it) }
+            var jwtFirstName = jwt?.getClaim("firstname")
+            var jwtAllClaims = jwt?.claims
+            jwtAllClaims?.forEach{element ->
+                element.value.asString()?.let { Log.e(element.key, it) }
+            }
+            jwtFirstName?.asString()?.let { Log.e("jwtFirstName", it) }
+            //Toast.makeText(applicationContext, jwtFirstName?.asString(), Toast.LENGTH_SHORT).show()
+        }
     }
 
 

@@ -7,62 +7,84 @@
     android:background="@android:color/white">
 
     <TextView
-        android:id="@+id/tvName"
-        android:layout_width="176dp"
-        android:layout_height="25dp"
+        android:id="@+id/tvFirstNameNOT"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="39dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="90dp"
-        android:gravity="center"
-        android:text="Username"
+        android:gravity="end"
+        android:text="Prenom :"
         android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/editTextTextUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:ems="10"
+    <TextView
+        android:id="@+id/tvFirstName"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="85dp"
+        android:layout_toEndOf="@+id/tvFirstNameNOT"
+        android:backgroundTint="@color/black"
+        android:gravity="center"
         android:inputType="textPersonName"
-        android:text="UserName"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/black"/>
+        android:text="tvFirstName"
+        android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/tvPassword"
-        android:layout_width="176dp"
-        android:layout_height="25dp"
-        android:layout_below="@+id/editTextTextUsername"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/tvLastNameNOT"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tvFirstNameNOT"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="39dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="56dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:text="Password" />
+        android:gravity="end"
+        android:text="Nom de famille :"
+        android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
+    <TextView
+        android:id="@+id/tvLastName"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tvFirstName"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="56dp"
+        android:layout_toEndOf="@+id/tvLastNameNOT"
         android:backgroundTint="@color/black"
-        android:text="Password" />
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="tvLastName"
+        android:textColor="@color/black" />
 
-    <Button
-        android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextTextPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Se connecter" />
+    <TextView
+        android:id="@+id/tvEmailNOT"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tvLastNameNOT"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="39dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="56dp"
+        android:gravity="end"
+        android:text="Email :"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tvLastName"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="56dp"
+        android:layout_toEndOf="@+id/tvLastNameNOT"
+        android:backgroundTint="@color/black"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="tvEmail"
+        android:textColor="@color/black" />
 
 </RelativeLayout>

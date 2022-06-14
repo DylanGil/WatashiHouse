@@ -95,12 +95,6 @@ class ShoppingCartFragment : Fragment() {
 
     }
 
-    /**private suspend fun readFromLocalStorage(key: String): String?{
-        val dataStoreKey = preferencesKey<String>(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey]
-    }*/
-
     private suspend fun clearLocalStorage(dataStore: DataStore<Preferences>){
         dataStore.edit {
             it.clear()
