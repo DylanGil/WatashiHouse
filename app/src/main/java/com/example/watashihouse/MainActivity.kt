@@ -2,6 +2,8 @@ package com.example.watashihouse
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,14 +11,22 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var textViewTestView: TextView
     private lateinit var buttonTestView: TextView
+    private lateinit var badgeDrawable: BadgeDrawable
+    private var badgeNumber = 0
     //lateinit var recyclerViewMeuble: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,17 +79,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        var localStorage = LocalStorage(applicationContext, "jwt")
+        val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+        retro.getUserProductFromShoppingCart(localStorage.userId).enqueue(object :
+            Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if(response.isSuccessful){
+                    val items = response.body()?.get("items")?.asJsonArray
+                    badgeNumber = items?.size()!!
 
-        lifecycleScope?.launch{
-
-            bottom_nav_view.getOrCreateBadge(R.id.nav_cart).apply {
-                number = 8
-                isVisible = true
-                backgroundColor = ContextCompat.getColor(applicationContext,R.color.black)
-                badgeTextColor = ContextCompat.getColor(applicationContext,R.color.white)
+                    lifecycleScope?.launch{
+                        badgeDrawable = bottom_nav_view.getOrCreateBadge(R.id.nav_cart).apply {
+                            number = badgeNumber
+                            isVisible = true
+                            backgroundColor = ContextCompat.getColor(applicationContext,R.color.black)
+                            badgeTextColor = ContextCompat.getColor(applicationContext,R.color.white)
+                        }
+                    }
+                }
             }
-        }
-
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                t.message?.let { Log.e("Erreur récuperation articles", it) }
+                }
+        })
     }
 
 
@@ -89,7 +111,6 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == 1){
             if(resultCode !== RESULT_OK){ //le user a cliqué sur le bouton revenir en arriere
-                Toast.makeText(applicationContext, "NUUUUUUUL", Toast.LENGTH_SHORT).show()
                 this@MainActivity.finish()
                 exitProcess(0)
             }
@@ -101,6 +122,14 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.fragment_container, fragment)
             commit()
         }
+    }
+
+    fun updateBadgeCount(){
+        badgeDrawable.number = badgeDrawable.number + 1
+    }
+
+    fun resetBadgeCount(){
+        badgeDrawable.number = 0
     }
 
     fun refreshCurrentFragment(fragmentId: Int) {

@@ -1,5 +1,6 @@
 package com.example.watashihouse
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.auth0.android.jwt.JWT
 import com.example.watashihouse.databinding.FragmentShoppingCartBinding
+import com.google.android.material.internal.ContextUtils
 import com.google.gson.JsonObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -53,9 +55,12 @@ class ShoppingCartFragment : Fragment() {
         deleteShoppingCartButton.setOnClickListener {
             val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
             retro.deleteAllProductsFromShoppingCart(userId).enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("RestrictedApi")
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Toast.makeText(context, "Le panier a bien été vidé", Toast.LENGTH_SHORT).show()
                     refreshFragment()
+                    val mainActivity = ContextUtils.getActivity(context) as MainActivity
+                    mainActivity.resetBadgeCount()
 
                 }
 
@@ -90,8 +95,9 @@ class ShoppingCartFragment : Fragment() {
     private fun getUserShoppingCart() {
         val listOfMeuble = mutableListOf<MeubleDeleteButton>()
 
+        var localStorage = LocalStorage(context, "jwt")
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-        retro.getUserProductFromShoppingCart("6").enqueue(object : Callback<JsonObject>{
+        retro.getUserProductFromShoppingCart(localStorage.userId).enqueue(object : Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if(response.isSuccessful){
                     //prix total du panier

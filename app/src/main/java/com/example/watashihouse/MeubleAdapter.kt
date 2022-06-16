@@ -1,11 +1,13 @@
 package com.example.watashihouse
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.internal.ContextUtils.getActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,9 +60,11 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
                 val localStorage = LocalStorage(itemView.context, "jwt")
                 val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
                 retro.addToShoppingCart(localStorage.userId, meuble.id).enqueue(object : Callback<ResponseBody> {
+                    @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
-
+                        val mainActivity = getActivity(itemView.context) as MainActivity
+                        mainActivity.updateBadgeCount()
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
