@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
         am[AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 500] =
             PendingIntent.getActivity(
                 activity, 0, requireActivity().intent,
-                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_CANCEL_CURRENT
+                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         val i = requireActivity().baseContext.packageManager
             .getLaunchIntentForPackage(requireActivity().baseContext.packageName)
