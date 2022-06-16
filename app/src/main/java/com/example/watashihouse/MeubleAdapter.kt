@@ -79,11 +79,6 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
                     }
 
                 })
-                //val monSet = setOf(meuble.title,meuble.summary, meuble.image.toString(), meuble.rating.toString(),  meuble.price + "€")
-
-                //TODO a faire mtn
-
-
             }
         }
 

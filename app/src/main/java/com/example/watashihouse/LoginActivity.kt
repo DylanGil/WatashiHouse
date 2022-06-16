@@ -33,18 +33,21 @@ class LoginActivity : AppCompatActivity() {
         emailTxt = findViewById(R.id.editTextEmail);
         passwordTxt = findViewById(R.id.editTextPassword);
 
+        checkIfAlreadyLog()
+
         emailTxt.text = Editable.Factory.getInstance().newEditable("dga@gmail.com")
         passwordTxt.text = Editable.Factory.getInstance().newEditable("dga")
 
         button.setOnClickListener {
             login()
         }
+    }
 
-        //val actionBar = supportActionBar
-
-        //actionBar!!.title = "Login"
-
-        //actionBar.setDisplayHomeAsUpEnabled(true)
+    private fun checkIfAlreadyLog() {
+        val localStorage = LocalStorage(applicationContext, "jwt")
+        val userEmail = localStorage.userEmail
+        if (userEmail != "null")
+            logOk()
     }
 
     private fun login() {
@@ -56,17 +59,15 @@ class LoginActivity : AppCompatActivity() {
         retro.login(request).enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 val user = response.body()
-                if(user != null){
-                    Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_SHORT).show()
+                if (user != null) {
                     lifecycleScope.launch {
                         val localStorage = LocalStorage(applicationContext, "jwt")
                         localStorage.clearLocalStorage()
                         localStorage.saveToLocalStorage("jwt", user!!.token.toString())
                     }
                     //passwordTxt.text = Editable.Factory.getInstance().newEditable(user!!.token)
-                    setResult(RESULT_OK)
-                    finish()
-                }else{
+                    logOk()
+                } else {
                     Toast.makeText(applicationContext, "User inexistant", Toast.LENGTH_SHORT).show()
                 }
                 /*Log.e("hash", user!!.data?.hash.toString())
@@ -75,11 +76,22 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    "Erreur serveur: Redémarrer l'application",
+                    Toast.LENGTH_SHORT
+                ).show()
                 Log.e("Error", t.message.toString())
             }
-
         })
+
+
+    }
+
+    private fun logOk(){
+        setResult(RESULT_OK)
+        finish()
+        Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_SHORT).show()
     }
 
 }

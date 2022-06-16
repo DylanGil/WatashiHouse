@@ -87,4 +87,17 @@
         android:text="tvEmail"
         android:textColor="@color/black" />
 
+    <Button
+        android:id="@+id/disconnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEmailNOT"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="133dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:text="Déconnexion" />
+
 </RelativeLayout>

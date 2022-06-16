@@ -55,7 +55,7 @@ class ShoppingCartFragment : Fragment() {
             retro.deleteAllProductsFromShoppingCart(userId).enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Toast.makeText(context, "Le panier a bien été vidé", Toast.LENGTH_SHORT).show()
-                    refreshFragment() //TODO marche pas
+                    //refreshFragment() //TODO marche pas
 
                 }
 
@@ -91,7 +91,7 @@ class ShoppingCartFragment : Fragment() {
                 if(response.isSuccessful){
                     //prix total du panier
                     val items = response.body()?.get("items")?.asJsonArray
-                    val id = response.body()?.get("id")?.asInt
+                    val idPanier = response.body()?.get("id")?.asInt
                     var prixTotalPanier = response.body()?.get("price")?.asString
                     if(prixTotalPanier == "0"){}else{
 
@@ -115,7 +115,7 @@ class ShoppingCartFragment : Fragment() {
                         description = description.dropLast(1)
                         val avis = 4.5F
 
-                        listOfMeuble += MeubleDeleteButton(name, description, R.drawable.book1, avis, truePrice);
+                        listOfMeuble += MeubleDeleteButton(id, name, description, R.drawable.book1, avis, truePrice);
                     }
 
                     recyclerViewMeuble.apply {
