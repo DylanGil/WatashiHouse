@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
 
                     val result = response.body()?.get("content")?.asJsonArray
 
-                    for (i in 1..6){
+                    for (i in 1..8){
                         val element = result?.get(i)
                         val monMeuble = element?.asJsonObject
                         val id = monMeuble?.get("id").toString()
@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
                         description = description.dropLast(1)
                         val avis = 4.5F
 
-                        listOfMeuble += Meuble(name, description, R.drawable.book1, avis, truePrice);
+                        listOfMeuble += Meuble(id, name, description, R.drawable.book1, avis, truePrice);
                     }
 
                     recyclerViewMeuble.apply {

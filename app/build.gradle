@@ -81,4 +81,7 @@ dependencies {
     //JwtDecode
     implementation 'com.auth0.android:jwtdecode:2.0.1'
 
+    //SwiperRefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
 }

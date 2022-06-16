@@ -8,19 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.SharedPreferencesMigration
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.core.preferencesSetKey
-import androidx.datastore.preferences.createDataStore
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.auth0.android.jwt.JWT
+import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.math.log
 
 class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>() {
@@ -39,7 +38,7 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
 
     override fun getItemCount() = items.size
 
-    inner class MeubleViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView.rootView){
+    inner class MeubleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView.rootView){
 
         var meubleTitle: TextView
         var meubleSummary: TextView
@@ -47,7 +46,6 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
         var meubleImage: ImageView
         var ratingBar: RatingBar
         var addToCart: Button
-        private lateinit var dataStore: DataStore<Preferences>
 
         init {
             meubleTitle = itemView.findViewById(R.id.meubleTitle)
@@ -56,16 +54,6 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             meubleImage = itemView.findViewById(R.id.meubleImage)
             ratingBar = itemView.findViewById(R.id.ratingBar)
             addToCart = itemView.findViewById(R.id.addToCartButton)
-            dataStore = itemView.context.createDataStore(name = "meubleStored")
-
-        }
-
-        private suspend fun saveToLocalStorage(key: String, value: Set<String>){
-            val dataStoreKey = preferencesSetKey<String>(key)
-            dataStore.edit { meubleStored ->
-                //Log.d("abc", meubleStored.toString())
-               meubleStored[dataStoreKey] = value
-            }
         }
 
         fun bind(meuble: Meuble) {
@@ -77,12 +65,25 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             addToCart.text = "Ajouter au panier"
 
             addToCart.setOnClickListener {
-                Toast.makeText(itemView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
-                itemView.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
-                    val monSet = setOf(meuble.title,meuble.summary, meuble.image.toString(), meuble.rating.toString(),  meuble.price + "€")
-                    saveToLocalStorage(meuble.title, monSet)
+                val localStorage = LocalStorage(itemView.context, "jwt")
+                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+                retro.addToShoppingCart(localStorage.userId, meuble.id).enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
 
-                }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("Error", t.message.toString())
+                        Toast.makeText(itemView.rootView.context, "Erreur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+                //val monSet = setOf(meuble.title,meuble.summary, meuble.image.toString(), meuble.rating.toString(),  meuble.price + "€")
+
+                //TODO a faire mtn
+
+
             }
         }
 

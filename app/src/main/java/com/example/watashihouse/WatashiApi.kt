@@ -17,9 +17,23 @@ interface WatashiApi {
     @GET("/articles?sortBy=name")
     fun getAllProducts(): Call<JsonObject>
 
+    @GET("/paniers/utilisateur={userId}")
+    fun getUserProductFromShoppingCart(
+        @Path("userId") userId: String): Call<JsonObject>
+
     @DELETE("/paniers/{userId}/supprimerArticle")
-    fun deleteAllProductsFromShoppingCart
-                (@Path("userId") userId: String): Call<ResponseBody>
+    fun deleteAllProductsFromShoppingCart(
+        @Path("userId") userId: String): Call<ResponseBody>
+
+    @GET("/avis/moyenne/article={meubleId}")
+    fun getMoyenneAvisProduit(
+        @Path("meubleId") meubleId: String): Call<ResponseBody>
+
+    @POST("/paniers/{userId}/ajouterArticle={meubleId}")
+    fun addToShoppingCart(
+        @Path("userId") userId: String,
+        @Path("meubleId") meubleId: String): Call<ResponseBody>
+
 
 
     //@GET("/user/{id}")

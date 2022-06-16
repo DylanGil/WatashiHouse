@@ -1,6 +1,7 @@
 package com.example.watashihouse
 
 data class Meuble (
+    var id: String,
     var title: String,
     var summary: String,
     var image: Int,

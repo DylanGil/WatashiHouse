@@ -34,7 +34,6 @@ class LoginFragment : Fragment() {
     lateinit var emailTxt: TextView
     lateinit var firstNameTxt: TextView
     lateinit var lastNameTxt: TextView
-    private lateinit var dataStore: DataStore<Preferences>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,38 +47,17 @@ class LoginFragment : Fragment() {
         emailTxt = view.findViewById(R.id.tvEmail) as TextView
         firstNameTxt = view.findViewById(R.id.tvFirstName) as TextView
         lastNameTxt = view.findViewById(R.id.tvLastName) as TextView
-        dataStore = context?.createDataStore(name = "jwt")!!
         initAction()
         return view
     }
 
     private fun initAction() {
         lifecycleScope.launch {
-            var jwt = readfromLocalStorage("jwt")?.let { JWT(it) }
-            firstNameTxt.text = jwt?.getClaim("firstname")?.asString().toString()
-            lastNameTxt.text = jwt?.getClaim("lastname")?.asString().toString()
-            emailTxt.text = jwt?.getClaim("email")?.asString().toString()
+            val localStorage = LocalStorage(context, "jwt")
+            firstNameTxt.text = localStorage.userFirstName
+            lastNameTxt.text = localStorage.userLastName
+            emailTxt.text = localStorage.userEmail
         }
     }
-
-    private suspend fun readfromLocalStorage(key: String): String? {
-        val dataStoreKey = preferencesKey<String>(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey]
-    }
-
-    private fun readJWTJustForInfo() { //just for info
-        lifecycleScope.launch {
-            var jwt = readfromLocalStorage("jwt")?.let { JWT(it) }
-            var jwtFirstName = jwt?.getClaim("firstname")
-            var jwtAllClaims = jwt?.claims
-            jwtAllClaims?.forEach{element ->
-                element.value.asString()?.let { Log.e(element.key, it) }
-            }
-            jwtFirstName?.asString()?.let { Log.e("jwtFirstName", it) }
-            //Toast.makeText(applicationContext, jwtFirstName?.asString(), Toast.LENGTH_SHORT).show()
-        }
-    }
-
 
 }

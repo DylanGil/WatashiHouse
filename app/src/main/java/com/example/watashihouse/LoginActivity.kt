@@ -26,14 +26,12 @@ class LoginActivity : AppCompatActivity() {
     lateinit var button: Button
     lateinit var emailTxt: EditText
     lateinit var passwordTxt: EditText
-    private lateinit var dataStore: DataStore<Preferences>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         button = findViewById(R.id.loginButton);
         emailTxt = findViewById(R.id.editTextEmail);
         passwordTxt = findViewById(R.id.editTextPassword);
-        dataStore = createDataStore(name = "jwt")
 
         emailTxt.text = Editable.Factory.getInstance().newEditable("dga@gmail.com")
         passwordTxt.text = Editable.Factory.getInstance().newEditable("dga")
@@ -61,9 +59,9 @@ class LoginActivity : AppCompatActivity() {
                 if(user != null){
                     Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_SHORT).show()
                     lifecycleScope.launch {
-                        clearLocalStorage(dataStore)
-                        saveToLocalStorage("jwt", user!!.token.toString())
-                        val testJwt = readfromLocalStorage("jwt")
+                        val localStorage = LocalStorage(applicationContext, "jwt")
+                        localStorage.clearLocalStorage()
+                        localStorage.saveToLocalStorage("jwt", user!!.token.toString())
                     }
                     //passwordTxt.text = Editable.Factory.getInstance().newEditable(user!!.token)
                     setResult(RESULT_OK)
@@ -82,38 +80,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    private suspend fun saveToLocalStorage(key: String, value: String){
-        val dataStoreKey = preferencesKey<String>(key)
-        dataStore.edit { jwt ->
-            jwt[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun readfromLocalStorage(key: String): String? {
-        val dataStoreKey = preferencesKey<String>(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey]
-    }
-
-    private suspend fun clearLocalStorage(dataStore: DataStore<Preferences>){
-        dataStore.edit {
-            it.clear()
-        }
-    }
-
-    private fun readJWT() {
-        lifecycleScope.launch {
-            var jwt = readfromLocalStorage("jwt")?.let { JWT(it) }
-            var jwtFirstName = jwt?.getClaim("firstname")
-            var jwtAllClaims = jwt?.claims
-            jwtAllClaims?.forEach{element ->
-                element.value.asString()?.let { Log.e(element.key, it) }
-            }
-            jwtFirstName?.asString()?.let { Log.e("jwtFirstName", it) }
-            //Toast.makeText(applicationContext, jwtFirstName?.asString(), Toast.LENGTH_SHORT).show()
-        }
     }
 
 }
