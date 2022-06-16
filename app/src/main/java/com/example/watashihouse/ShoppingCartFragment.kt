@@ -55,7 +55,7 @@ class ShoppingCartFragment : Fragment() {
             retro.deleteAllProductsFromShoppingCart(userId).enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Toast.makeText(context, "Le panier a bien été vidé", Toast.LENGTH_SHORT).show()
-                    //refreshFragment() //TODO marche pas
+                    refreshFragment()
 
                 }
 
@@ -80,6 +80,11 @@ class ShoppingCartFragment : Fragment() {
             //readFromLocalStoragee()
             getUserShoppingCart()
         }
+    }
+
+    private fun refreshFragment(){
+        fragmentManager?.beginTransaction()?.detach(this)?.commit()
+        fragmentManager?.beginTransaction()?.attach(this)?.commit()
     }
 
     private fun getUserShoppingCart() {
@@ -134,23 +139,5 @@ class ShoppingCartFragment : Fragment() {
                 Toast.makeText(context, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-
-
-
-    private fun refreshFragment(){
-        context?.let {
-            val fragmentManager = (context as? AppCompatActivity)?.supportFragmentManager
-            fragmentManager?.let{
-                val currentFragment = fragmentManager.findFragmentById(R.id.fragment_container)
-                currentFragment?.let {
-                    val fragmentTransaction = fragmentManager.beginTransaction()
-                    fragmentTransaction.detach(it)
-                    fragmentTransaction.attach(it)
-                    fragmentTransaction.commit()
-                }
-            }
-        }
     }
 }

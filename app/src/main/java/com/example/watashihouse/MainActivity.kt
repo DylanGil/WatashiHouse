@@ -1,26 +1,15 @@
 package com.example.watashihouse
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
@@ -28,7 +17,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var textViewTestView: TextView
     private lateinit var buttonTestView: TextView
-    private lateinit var dataStore: DataStore<Preferences>
     //lateinit var recyclerViewMeuble: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,15 +59,21 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        dataStore = createDataStore(name = "meubleStored")
-        var preferencesNumber = 0
+        bottom_nav_view.setOnItemReselectedListener {
+            when(it.itemId){
+                R.id.nav_home -> refreshCurrentFragment(homeFragment.id)
+                R.id.nav_search -> refreshCurrentFragment(searchFragment.id)
+                R.id.nav_favorite -> refreshCurrentFragment(favorisFragment.id)
+                R.id.nav_cart -> refreshCurrentFragment(shoppingCartFragment.id)
+                R.id.nav_user -> refreshCurrentFragment(userFragment.id)
+            }
+        }
+
+
         lifecycleScope?.launch{
 
-        val preferences = dataStore.data.first()
-            preferencesNumber = preferences.asMap().size
-
             bottom_nav_view.getOrCreateBadge(R.id.nav_cart).apply {
-                number = preferencesNumber
+                number = 8
                 isVisible = true
                 backgroundColor = ContextCompat.getColor(applicationContext,R.color.black)
                 badgeTextColor = ContextCompat.getColor(applicationContext,R.color.white)
@@ -109,10 +103,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun SetButtonEvent(){
-        buttonTestView.setOnClickListener{
-            //monCode
-            textViewTestView.text = "monString"
-        }
+    fun refreshCurrentFragment(fragmentId: Int) {
+        var currentFragment = supportFragmentManager.findFragmentById(fragmentId)!!
+        supportFragmentManager.beginTransaction().detach(currentFragment).commit()
+        supportFragmentManager.beginTransaction().attach(currentFragment).commit()
     }
+
+
 }
