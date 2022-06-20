@@ -67,7 +67,10 @@ class HomeFragment : Fragment() {
                         description = description.dropLast(1)
                         val avis = 4.5F
 
-                        listOfMeuble += Meuble(id, name, description, R.drawable.book1, avis, truePrice);
+                        if(i%2==1)
+                            listOfMeuble += Meuble(id, name, description, R.drawable.book1, avis, truePrice);
+                        else
+                            listOfMeuble += Meuble(id, name, description, R.drawable.book2, avis, truePrice);
                     }
 
                     recyclerViewMeuble.apply {

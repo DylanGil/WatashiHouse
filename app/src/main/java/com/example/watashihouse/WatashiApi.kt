@@ -19,11 +19,13 @@ interface WatashiApi {
 
     @GET("/paniers/utilisateur={userId}")
     fun getUserProductFromShoppingCart(
-        @Path("userId") userId: String): Call<JsonObject>
+        @Path("userId") userId: String,
+        @Header("Authentication") Authentication: String): Call<JsonObject>
 
     @DELETE("/paniers/{userId}/supprimerArticle")
     fun deleteAllProductsFromShoppingCart(
-        @Path("userId") userId: String): Call<ResponseBody>
+        @Path("userId") userId: String,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
 
     @GET("/avis/moyenne/article={meubleId}")
     fun getMoyenneAvisProduit(
@@ -32,7 +34,8 @@ interface WatashiApi {
     @POST("/paniers/{userId}/ajouterArticle={meubleId}")
     fun addToShoppingCart(
         @Path("userId") userId: String,
-        @Path("meubleId") meubleId: String): Call<ResponseBody>
+        @Path("meubleId") meubleId: String,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
 
 
 

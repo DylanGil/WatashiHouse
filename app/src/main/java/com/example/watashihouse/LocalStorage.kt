@@ -20,6 +20,7 @@ private lateinit var dataStore: DataStore<Preferences>
 
 class LocalStorage(context: Context?, dataStoreName: String) {
     val name = dataStoreName
+    var jwtToken = ""
     var userId = ""
     var userFirstName = ""
     var userLastName = ""
@@ -30,6 +31,7 @@ class LocalStorage(context: Context?, dataStoreName: String) {
         runBlocking {
             launch {
                 var jwt = readfromLocalStorage()?.let { JWT (it) }
+                jwtToken = jwt.toString()
                 userId = jwt?.getClaim("id")?.asString().toString()
                 userFirstName = jwt?.getClaim("firstname")?.asString().toString()
                 userLastName = jwt?.getClaim("lastname")?.asString().toString()

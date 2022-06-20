@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
+import com.stripe.android.PaymentConfiguration
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //badgeDrawable.number = 0
+        //PaymentConfiguration.init(this, "pk_test_51LCT6xCrEfc8tDFiYDS3VxJ3L6Ko8h9W1YTQNWLUyYFGBB3YKlCfaOUT6AjSmNLGJRKlgQregwvnU9feyzwVbOQz00jmapAknC")
         setContentView(R.layout.activity_main)
         //recyclerViewMeuble = findViewById(R.id.recyclerViewHome)
         CreateElement()
@@ -49,6 +52,14 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.layout, HomeFragment()).commit()*/
 
         val bottom_nav_view = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        lifecycleScope?.launch{
+            badgeDrawable = bottom_nav_view.getOrCreateBadge(R.id.nav_cart).apply {
+                number = badgeNumber
+                isVisible = true
+                backgroundColor = ContextCompat.getColor(applicationContext,R.color.black)
+                badgeTextColor = ContextCompat.getColor(applicationContext,R.color.white)
+            }
+        }
         val homeFragment = HomeFragment()
         val searchFragment = SearchFragment()
         val favorisFragment = FavorisFragment()
@@ -81,12 +92,13 @@ class MainActivity : AppCompatActivity() {
 
         var localStorage = LocalStorage(applicationContext, "jwt")
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-        retro.getUserProductFromShoppingCart(localStorage.userId).enqueue(object :
+        retro.getUserProductFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object :
             Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if(response.isSuccessful){
                     val items = response.body()?.get("items")?.asJsonArray
-                    badgeNumber = items?.size()!!
+                    if(items?.size() != 0)
+                        badgeNumber = items?.size()!!
 
                     lifecycleScope?.launch{
                         badgeDrawable = bottom_nav_view.getOrCreateBadge(R.id.nav_cart).apply {

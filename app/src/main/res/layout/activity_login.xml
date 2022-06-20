@@ -57,13 +57,13 @@
         android:layout_below="@+id/tvName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:autofillHints=""
         android:backgroundTint="@color/black"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text="Email"
-        android:textColor="@color/black"
-        android:autofillHints="" />
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tvPassword"
