@@ -61,7 +61,6 @@ class LoginFragment : Fragment() {
                 launch {
                     LocalStorage(context,"jwt").clearLocalStorage()
                     restartApp()
-                    //TODO Bouton deconnexion qui va à la ligne chez cherie
                 }
             }
         }

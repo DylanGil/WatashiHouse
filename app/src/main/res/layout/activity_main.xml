@@ -36,6 +36,7 @@
             android:background="?android:attr/listDivider"
             android:backgroundTint="#F3F1F0"
             android:backgroundTintMode="screen" />
+
     </RelativeLayout>
 
         <FrameLayout

@@ -66,11 +66,9 @@ class HomeFragment : Fragment() {
                         description = description.drop(1)
                         description = description.dropLast(1)
                         val avis = 4.5F
+                        var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
 
-                        if(i%2==1)
-                            listOfMeuble += Meuble(id, name, description, R.drawable.book1, avis, truePrice);
-                        else
-                            listOfMeuble += Meuble(id, name, description, R.drawable.book2, avis, truePrice);
+                            listOfMeuble += Meuble(id, name, description, img1, avis, truePrice);
                     }
 
                     recyclerViewMeuble.apply {

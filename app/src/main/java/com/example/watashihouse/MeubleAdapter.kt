@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ContextUtils.getActivity
+import com.squareup.picasso.Picasso
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,12 +39,14 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
         var meubleImage: ImageView
         var ratingBar: RatingBar
         var addToCart: Button
+        var meubleImage1: Boolean
 
         init {
             meubleTitle = itemView.findViewById(R.id.meubleTitle)
             meubleSummary = itemView.findViewById(R.id.meubleSummary)
             meublePrice = itemView.findViewById(R.id.meublePrice)
             meubleImage = itemView.findViewById(R.id.meubleImage)
+            meubleImage1 = true
             ratingBar = itemView.findViewById(R.id.ratingBar)
             addToCart = itemView.findViewById(R.id.addToCartButton)
         }
@@ -51,10 +54,22 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
         fun bind(meuble: Meuble) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
-            meubleImage.setImageResource(meuble.image)
+            Picasso.get().load(meuble.image).into(meubleImage)
+            //meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
             addToCart.text = "Ajouter au panier"
+
+            meubleImage.setOnClickListener {
+                if(meubleImage1){
+                Picasso.get().load("https://static.remove.bg/remove-bg-web/eb1bb48845c5007c3ec8d72ce7972fc8b76733b1/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg").into(meubleImage)
+                meubleImage1 = false
+                }
+                else{
+                    Picasso.get().load(meuble.image).into(meubleImage)
+                    meubleImage1 = true
+                }
+            }
 
             addToCart.setOnClickListener {
                 val localStorage = LocalStorage(itemView.context, "jwt")

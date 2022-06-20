@@ -14,7 +14,7 @@ interface WatashiApi {
         @Body userRequest: UserRequest
     ): Call<UserResponse>
 
-    @GET("/articles?sortBy=name")
+    @GET("/articles?sortBy=note&orderBy=DESC")
     fun getAllProducts(): Call<JsonObject>
 
     @GET("/paniers/utilisateur={userId}")

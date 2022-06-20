@@ -61,7 +61,8 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
         fun bind(meuble: MeubleDeleteButton) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
-            meubleImage.setImageResource(meuble.image)
+            Picasso.get().load(meuble.image).into(meubleImage)
+            //meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price
         }

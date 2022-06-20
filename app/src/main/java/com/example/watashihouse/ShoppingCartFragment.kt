@@ -1,6 +1,7 @@
 package com.example.watashihouse
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,10 +35,9 @@ class ShoppingCartFragment : Fragment() {
     lateinit var recyclerViewMeuble: RecyclerView
     lateinit var loadingCircle: ProgressBar
     private lateinit var deleteShoppingCartButton: Button
+    private lateinit var validateShopppingButton: Button
     private lateinit var totalNumberText: TextView
-    private lateinit var googlePayButton: Button
     private var panierPrice = 0
-    private lateinit var googlePayLauncher: GooglePayPaymentMethodLauncher
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +52,6 @@ class ShoppingCartFragment : Fragment() {
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewShoppingCart) as RecyclerView
         loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
         totalNumberText = view.findViewById(R.id.totalNumberText) as TextView
-        googlePayButton = view.findViewById(R.id.validateShopppingButton)!!
         deleteShoppingCartButton = view.findViewById(R.id.deleteShoppingCartButton)
         deleteShoppingCartButton.setOnClickListener {
             val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
@@ -73,12 +72,14 @@ class ShoppingCartFragment : Fragment() {
 
             })
         }
+        validateShopppingButton = view.findViewById(R.id.validateShopppingButton)
+        validateShopppingButton.setOnClickListener {
+            val intent = Intent(activity, ValidateShopping::class.java)
+            intent.putExtra("panierPrice", panierPrice)
+            startActivity(intent) //startActivityForResult(intent, 1)
+        }
         primaryFunction()
         return view
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
     private fun primaryFunction(){
@@ -127,8 +128,9 @@ class ShoppingCartFragment : Fragment() {
                         description = description.drop(1)
                         description = description.dropLast(1)
                         val avis = 4.5F
+                        var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
 
-                        listOfMeuble += MeubleDeleteButton(id, name, description, R.drawable.book1, avis, truePrice);
+                        listOfMeuble += MeubleDeleteButton(id, name, description, img1, avis, truePrice);
                     }
 
                     recyclerViewMeuble.apply {
