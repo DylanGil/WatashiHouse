@@ -1,6 +1,7 @@
 package com.example.watashihouse
 
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +29,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.system.exitProcess
 
 class ShoppingCartFragment : Fragment() {
 
@@ -76,10 +79,20 @@ class ShoppingCartFragment : Fragment() {
         validateShopppingButton.setOnClickListener {
             val intent = Intent(activity, ValidateShopping::class.java)
             intent.putExtra("panierPrice", panierPrice)
-            startActivity(intent) //startActivityForResult(intent, 1)
+            startActivityForResult(intent, 1) //startActivityForResult(intent, 1)
         }
         primaryFunction()
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1){
+            if(resultCode == RESULT_OK){ //l'achat est bien passé
+                refreshFragment()
+            }
+        }
     }
 
     private fun primaryFunction(){
@@ -106,31 +119,25 @@ class ShoppingCartFragment : Fragment() {
                     val items = response.body()?.get("items")?.asJsonArray
                     val idPanier = response.body()?.get("id")?.asInt
                     panierPrice = response.body()?.get("price")?.asInt!!
-                    var prixTotalPanier = response.body()?.get("price")?.asString
-                    if(prixTotalPanier == "0"){}else{
-
-                    val firstPrice = prixTotalPanier?.substring(0, prixTotalPanier.length-2)
-                    val secondPrice = prixTotalPanier?.substring(prixTotalPanier.length-2)
-                    totalNumberText.text = "$firstPrice,$secondPrice€"
+                    var prixTotalPanier = response.body()?.get("price")?.asDouble
+                    if(prixTotalPanier == 0.0){}else{
+                        prixTotalPanier = prixTotalPanier?.div(100)
+                        totalNumberText.text = prixTotalPanier.toString() + "€"
 
                     //afficher tout les items du panier
                     items?.forEach {item ->
                         val monMeuble = item?.asJsonObject
                         val id = monMeuble?.get("id").toString()
-                        var name = monMeuble?.get("name").toString()
-                        name = name.drop(1)
-                        name = name.dropLast(1)
-                        val price = monMeuble?.get("price").toString()
-                        val firstPrice = price?.substring(0, price.length-2)
-                        val secondPrice = price?.substring(price.length-2)
-                        var truePrice = "$firstPrice,$secondPrice€"
-                        var description = monMeuble?.get("description").toString()
-                        description = description.drop(1)
-                        description = description.dropLast(1)
-                        val avis = 4.5F
+                        var name = monMeuble?.get("name").toString().drop(1).dropLast(1)
+                        var price = monMeuble?.get("price")?.asDouble?.div(100)
+                        var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
                         var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
+                        var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
+                        var img3 = monMeuble?.get("image3").toString().drop(1).dropLast(1)
+                        var img4 = monMeuble?.get("image4").toString().drop(1).dropLast(1)
+                        val avis = 4.5F
 
-                        listOfMeuble += MeubleDeleteButton(id, name, description, img1, avis, truePrice);
+                        listOfMeuble += MeubleDeleteButton(id, name, description, img1,img2,img3,img4, avis, price.toString());
                     }
 
                     recyclerViewMeuble.apply {

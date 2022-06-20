@@ -1,8 +1,6 @@
 package com.example.watashihouse
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.clear
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
@@ -11,8 +9,6 @@ import com.auth0.android.jwt.JWT
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-
-private lateinit var dataStore: DataStore<Preferences>
 
 class LocalStorage(context: Context?, dataStoreName: String) {
     val name = dataStoreName

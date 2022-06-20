@@ -48,27 +48,16 @@ class HomeFragment : Fragment() {
                         val element = result?.get(i)
                         val monMeuble = element?.asJsonObject
                         val id = monMeuble?.get("id").toString()
-                        var name = monMeuble?.get("name").toString()
-                        name = name.drop(1)
-                        name = name.dropLast(1)
-                        val price = monMeuble?.get("price").toString()
-                        var truePrice = "0"
-                        if (price.length == 4){
-                            val firstPrice = price.substring(0, 2)
-                            val secondPrice = price.substring(2)
-                            truePrice = "$firstPrice,$secondPrice"
-                        }else{
-                            val firstPrice = price.substring(0, 1)
-                            val secondPrice = price.substring(1)
-                            truePrice = "$firstPrice,$secondPrice"
-                        }
-                        var description = monMeuble?.get("description").toString()
-                        description = description.drop(1)
-                        description = description.dropLast(1)
-                        val avis = 4.5F
+                        var name = monMeuble?.get("name").toString().drop(1).dropLast(1)
+                        var price = monMeuble?.get("price")?.asDouble?.div(100)
+                        var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
                         var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
+                        var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
+                        var img3 = monMeuble?.get("image3").toString().drop(1).dropLast(1)
+                        var img4 = monMeuble?.get("image4").toString().drop(1).dropLast(1)
+                        val avis = 4.5F
 
-                            listOfMeuble += Meuble(id, name, description, img1, avis, truePrice);
+                            listOfMeuble += Meuble(id, name, description, img1,img2,img3,img4, avis, price.toString());
                     }
 
                     recyclerViewMeuble.apply {

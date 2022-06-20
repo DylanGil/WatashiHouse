@@ -1,12 +1,19 @@
 package com.example.watashihouse
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import com.google.android.material.internal.ContextUtils
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
 import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ValidateShopping : AppCompatActivity() {
     private lateinit var validateShopppingButton: Button
@@ -45,9 +52,23 @@ class ValidateShopping : AppCompatActivity() {
     private fun onGooglePayResult(result: GooglePayPaymentMethodLauncher.Result) {
         when (result) {
             is GooglePayPaymentMethodLauncher.Result.Completed -> {
+                val localStorage = LocalStorage(applicationContext, "jwt")
                 // Payment succeeded, show a receipt view
                 Toast.makeText(applicationContext, "Completed", Toast.LENGTH_SHORT).show()
+                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+                retro.deleteAllProductsFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object :
+                    Callback<ResponseBody> {
+                    @SuppressLint("RestrictedApi")
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        setResult(RESULT_OK)
+                        finish()
+                    }
 
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("Error", t.message.toString())
+                    }
+
+                })
             }
             GooglePayPaymentMethodLauncher.Result.Canceled -> {
                 // User canceled the operation

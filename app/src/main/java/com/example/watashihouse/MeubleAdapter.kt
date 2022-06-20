@@ -39,14 +39,14 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
         var meubleImage: ImageView
         var ratingBar: RatingBar
         var addToCart: Button
-        var meubleImage1: Boolean
+        var wichImg: Int
 
         init {
             meubleTitle = itemView.findViewById(R.id.meubleTitle)
             meubleSummary = itemView.findViewById(R.id.meubleSummary)
             meublePrice = itemView.findViewById(R.id.meublePrice)
             meubleImage = itemView.findViewById(R.id.meubleImage)
-            meubleImage1 = true
+            wichImg = 1
             ratingBar = itemView.findViewById(R.id.ratingBar)
             addToCart = itemView.findViewById(R.id.addToCartButton)
         }
@@ -54,20 +54,30 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
         fun bind(meuble: Meuble) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
-            Picasso.get().load(meuble.image).into(meubleImage)
+            Picasso.get().load(meuble.image1).into(meubleImage)
             //meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
             addToCart.text = "Ajouter au panier"
 
             meubleImage.setOnClickListener {
-                if(meubleImage1){
-                Picasso.get().load("https://static.remove.bg/remove-bg-web/eb1bb48845c5007c3ec8d72ce7972fc8b76733b1/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg").into(meubleImage)
-                meubleImage1 = false
-                }
-                else{
-                    Picasso.get().load(meuble.image).into(meubleImage)
-                    meubleImage1 = true
+                when(wichImg){
+                    1 -> {
+                        Picasso.get().load(meuble.image2).into(meubleImage)
+                        wichImg = 2
+                    }
+                    2 -> {
+                        Picasso.get().load(meuble.image3).into(meubleImage)
+                        wichImg = 3
+                    }
+                    3 -> {
+                        Picasso.get().load(meuble.image4).into(meubleImage)
+                        wichImg = 4
+                    }
+                    4 -> {
+                        Picasso.get().load(meuble.image1).into(meubleImage)
+                        wichImg = 1
+                    }
                 }
             }
 

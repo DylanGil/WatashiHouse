@@ -46,6 +46,7 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
         var meublePrice: TextView
         var meubleImage: ImageView
         var ratingBar: RatingBar
+        var wichImg: Int
         private lateinit var dataStore: DataStore<Preferences>
 
         init {
@@ -53,6 +54,7 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
             meubleSummary = itemView.findViewById(R.id.meubleSummary)
             meublePrice = itemView.findViewById(R.id.meublePrice)
             meubleImage = itemView.findViewById(R.id.meubleImage)
+            wichImg = 1
             ratingBar = itemView.findViewById(R.id.ratingBar)
             dataStore = itemView.context.createDataStore(name = "meubleStored")
 
@@ -61,10 +63,32 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
         fun bind(meuble: MeubleDeleteButton) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
-            Picasso.get().load(meuble.image).into(meubleImage)
+            Picasso.get().load(meuble.image1).into(meubleImage)
             //meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
-            meublePrice.text = meuble.price
+            meublePrice.text = meuble.price + "€"
+
+
+            meubleImage.setOnClickListener {
+                when(wichImg){
+                    1 -> {
+                        Picasso.get().load(meuble.image2).into(meubleImage)
+                        wichImg = 2
+                    }
+                    2 -> {
+                        Picasso.get().load(meuble.image3).into(meubleImage)
+                        wichImg = 3
+                    }
+                    3 -> {
+                        Picasso.get().load(meuble.image4).into(meubleImage)
+                        wichImg = 4
+                    }
+                    4 -> {
+                        Picasso.get().load(meuble.image1).into(meubleImage)
+                        wichImg = 1
+                    }
+                }
+            }
         }
 
     }
