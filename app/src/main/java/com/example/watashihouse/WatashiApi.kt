@@ -32,6 +32,11 @@ interface WatashiApi {
         @Path("userId") userId: String,
         @Header("Authentication") Authentication: String): Call<JsonObject>
 
+    @GET("/favoris/utilisateur={userId}")
+    fun getUserProductFromFavoris(
+        @Path("userId") userId: String,
+        @Header("Authentication") Authentication: String): Call<JsonObject>
+
     @DELETE("/paniers/{userId}/supprimerArticle")
     fun deleteAllProductsFromShoppingCart(
         @Path("userId") userId: String,
