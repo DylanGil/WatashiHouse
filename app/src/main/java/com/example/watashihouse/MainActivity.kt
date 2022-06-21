@@ -138,8 +138,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateBadgeCount(){
-        badgeDrawable.number = badgeDrawable.number + 1
+    fun addValueBadgeCount(number: Int){
+        badgeDrawable.number = badgeDrawable.number + number
+    }
+
+    fun removeValueBadgeCount(number: Int){
+        badgeDrawable.number = badgeDrawable.number - number
     }
 
     fun resetBadgeCount(){

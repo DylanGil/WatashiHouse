@@ -2,6 +2,7 @@ package com.example.watashihouse
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -63,9 +64,6 @@ class ShoppingCartFragment : Fragment() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Toast.makeText(context, "Le panier a bien été vidé", Toast.LENGTH_SHORT).show()
                     refreshFragment()
-                    val mainActivity = ContextUtils.getActivity(context) as MainActivity
-                    mainActivity.resetBadgeCount()
-
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -85,12 +83,14 @@ class ShoppingCartFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 1){
             if(resultCode == RESULT_OK){ //l'achat est bien passé
                 refreshFragment()
+
             }
         }
     }
@@ -102,9 +102,20 @@ class ShoppingCartFragment : Fragment() {
         }
     }
 
-    private fun refreshFragment(){
+    @SuppressLint("RestrictedApi")
+    fun refreshFragment(){
         fragmentManager?.beginTransaction()?.detach(this)?.commit()
         fragmentManager?.beginTransaction()?.attach(this)?.commit()
+        val mainActivity = ContextUtils.getActivity(context) as MainActivity
+        mainActivity.resetBadgeCount()
+    }
+
+    fun refreshFragment(fragment: ShoppingCartFragment){
+
+        fragmentManager?.beginTransaction()?.detach(fragment)?.commit()
+        fragmentManager?.beginTransaction()?.attach(fragment)?.commit()
+        //val mainActivity = ContextUtils.getActivity(context) as MainActivity
+        //mainActivity.resetBadgeCount()
     }
 
     private fun getUserShoppingCart() {
@@ -133,8 +144,14 @@ class ShoppingCartFragment : Fragment() {
                         var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
                         var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
                         var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
-                        var img3 = monMeuble?.get("image3").toString().drop(1).dropLast(1)
-                        var img4 = monMeuble?.get("image4").toString().drop(1).dropLast(1)
+                        var img3 = "image3"
+                        var img4 = "image4"
+                        if(monMeuble?.get("image3").toString() == "null")
+                            img3 = "image1"
+                        if(monMeuble?.get("image4").toString() == "null")
+                            img4 = "image2"
+                        img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
+                        img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
                         val avis = 4.5F
 
                         listOfMeuble += MeubleDeleteButton(id, name, description, img1,img2,img3,img4, avis, price.toString());
@@ -142,7 +159,7 @@ class ShoppingCartFragment : Fragment() {
 
                     recyclerViewMeuble.apply {
                         layoutManager = LinearLayoutManager(this.context)
-                        adapter = MeubleAdapterDeleteButton(listOfMeuble)
+                        adapter = MeubleAdapterDeleteButton(context,this@ShoppingCartFragment, listOfMeuble)
                     }
                 }
                 loadingCircle.visibility = View.INVISIBLE

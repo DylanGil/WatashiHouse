@@ -1,31 +1,25 @@
 package com.example.watashihouse
 
 import android.annotation.SuppressLint
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.SharedPreferencesMigration
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.core.preferencesSetKey
-import androidx.datastore.preferences.createDataStore
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.internal.ContextUtils
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlin.math.log
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerView.Adapter<MeubleAdapterDeleteButton.MeubleViewHolder>() {
+class MeubleAdapterDeleteButton(context : Context, shoppingCartFragment: ShoppingCartFragment, var items: List<MeubleDeleteButton>) : RecyclerView.Adapter<MeubleAdapterDeleteButton.MeubleViewHolder>() {
 
-
+    private var mContext = context
+    private var shoppingCartFragment = shoppingCartFragment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeubleViewHolder {
         val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class_delete_button, parent, false)
@@ -46,8 +40,8 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
         var meublePrice: TextView
         var meubleImage: ImageView
         var ratingBar: RatingBar
+        var deleteFromCart: Button
         var wichImg: Int
-        private lateinit var dataStore: DataStore<Preferences>
 
         init {
             meubleTitle = itemView.findViewById(R.id.meubleTitle)
@@ -56,7 +50,7 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
             meubleImage = itemView.findViewById(R.id.meubleImage)
             wichImg = 1
             ratingBar = itemView.findViewById(R.id.ratingBar)
-            dataStore = itemView.context.createDataStore(name = "meubleStored")
+            deleteFromCart = itemView.findViewById(R.id.removeFromCartButton)
 
         }
 
@@ -64,9 +58,9 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
-            //meubleImage.setImageResource(meuble.image)
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
+            deleteFromCart.text = "Supprimer du panier"
 
 
             meubleImage.setOnClickListener {
@@ -88,6 +82,27 @@ class MeubleAdapterDeleteButton(var items: List<MeubleDeleteButton>) : RecyclerV
                         wichImg = 1
                     }
                 }
+            }
+
+            deleteFromCart.setOnClickListener {
+                val localStorage = LocalStorage(itemView.context, "jwt")
+                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+                retro.deleteFromShoppingCart(localStorage.userId, meuble.id, localStorage.jwtToken).enqueue(object :
+                    Callback<ResponseBody> {
+                    @SuppressLint("RestrictedApi")
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        Toast.makeText(mContext, meuble.title + " supprimé du panier", Toast.LENGTH_SHORT).show()
+                        val mainActivity = ContextUtils.getActivity(mContext) as MainActivity
+                        mainActivity.removeValueBadgeCount(1)
+                        shoppingCartFragment.refreshFragment(shoppingCartFragment)
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("Error", t.message.toString())
+                        Toast.makeText(itemView.rootView.context, "Erreur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
             }
         }
 

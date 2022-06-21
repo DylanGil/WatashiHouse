@@ -27,18 +27,15 @@ interface WatashiApi {
         @Path("userId") userId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
-    @GET("/avis/moyenne/article={meubleId}")
-    fun getMoyenneAvisProduit(
-        @Path("meubleId") meubleId: String): Call<ResponseBody>
-
     @POST("/paniers/{userId}/ajouterArticle={meubleId}")
     fun addToShoppingCart(
         @Path("userId") userId: String,
         @Path("meubleId") meubleId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
-
-
-    //@GET("/user/{id}")
-    //suspend fun getUser(@Path("id") id: String): Response<User>
+    @DELETE("/paniers/{userId}/supprimerArticle={meubleId}")
+    fun deleteFromShoppingCart(
+        @Path("userId") userId: String,
+        @Path("meubleId") meubleId: String,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
 }

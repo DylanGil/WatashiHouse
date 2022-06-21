@@ -53,8 +53,14 @@ class HomeFragment : Fragment() {
                         var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
                         var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
                         var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
-                        var img3 = monMeuble?.get("image3").toString().drop(1).dropLast(1)
-                        var img4 = monMeuble?.get("image4").toString().drop(1).dropLast(1)
+                        var img3 = "image3"
+                        var img4 = "image4"
+                        if(monMeuble?.get("image3").toString() == "null")
+                            img3 = "image1"
+                        if(monMeuble?.get("image4").toString() == "null")
+                            img4 = "image2"
+                        img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
+                        img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
                         val avis = 4.5F
 
                             listOfMeuble += Meuble(id, name, description, img1,img2,img3,img4, avis, price.toString());

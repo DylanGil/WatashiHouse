@@ -89,7 +89,8 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
                         val mainActivity = getActivity(itemView.context) as MainActivity
-                        mainActivity.updateBadgeCount()
+                        mainActivity.addValueBadgeCount(1)
+
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
