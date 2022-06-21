@@ -14,8 +14,18 @@ interface WatashiApi {
         @Body userRequest: UserRequest
     ): Call<UserResponse>
 
+    @POST("utilisateurs/inscription")
+    fun register(
+        @Body userInscriptionRequest: UserInscriptionRequest
+    ): Call<ResponseBody>
+
     @GET("/articles?sortBy=note&orderBy=DESC")
     fun getAllProducts(): Call<JsonObject>
+
+    @GET("/paiement/prix={price}")
+    fun validatePaiement(
+        @Path("price") price: Int,
+        @Header("Authentication") Authentication: String): Call<PaiementResponse>
 
     @GET("/paniers/utilisateur={userId}")
     fun getUserProductFromShoppingCart(

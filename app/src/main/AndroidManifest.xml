@@ -12,9 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WatashiHouse">
         <activity
-            android:name=".ValidateShopping"
+            android:name=".InscriptionActivity"
             android:exported="false" />
-        <!-- This element is required to enable Google Pay in your app. -->
+        <activity
+            android:name=".ValidateShopping"
+            android:exported="false" /> <!-- This element is required to enable Google Pay in your app. -->
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />

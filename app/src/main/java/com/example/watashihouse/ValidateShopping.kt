@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.google.android.material.internal.ContextUtils
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
+import com.stripe.android.googlepaylauncher.GooglePayLauncher
 import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -21,13 +22,14 @@ class ValidateShopping : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_validate_shopping)
 
+
         var panierPrice = intent.getIntExtra("panierPrice", 0)
         PaymentConfiguration.init(this, "pk_test_51LCT6xCrEfc8tDFiYDS3VxJ3L6Ko8h9W1YTQNWLUyYFGBB3YKlCfaOUT6AjSmNLGJRKlgQregwvnU9feyzwVbOQz00jmapAknC")
 
         validateShopppingButton = findViewById(R.id.validateShopppingButton)
-        val googlePayLauncher = GooglePayPaymentMethodLauncher(
+        val googlePayLauncher = GooglePayLauncher(
             activity = this,
-            config = GooglePayPaymentMethodLauncher.Config(
+            config = GooglePayLauncher.Config(
                 environment = GooglePayEnvironment.Test,
                 merchantCountryCode = "FR",
                 merchantName = "Watashi House"
@@ -37,11 +39,41 @@ class ValidateShopping : AppCompatActivity() {
         )
 
         validateShopppingButton.setOnClickListener {
+            val localStorage = LocalStorage(applicationContext, "jwt")
+            val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+            retro.validatePaiement(panierPrice,localStorage.jwtToken).enqueue(object : Callback<PaiementResponse> {
+                override fun onResponse(call: Call<PaiementResponse>, response: Response<PaiementResponse>) {
+                    val user = response.body()
+                    if (user != null) {
+                        //passwordTxt.text = Editable.Factory.getInstance().newEditable(user!!.token)
+                        Toast.makeText(applicationContext, user!!.clientSecret.toString(), Toast.LENGTH_SHORT).show()
+                        googlePayLauncher.presentForPaymentIntent(user!!.clientSecret.toString())
+                    } else {
+                        Toast.makeText(applicationContext, "SHLAG", Toast.LENGTH_SHORT).show()
+                    }
+                    /*Log.e("hash", user!!.data?.hash.toString())
+                    Log.e("email", user!!.data?.email.toString())*/
+
+                }
+
+                override fun onFailure(call: Call<PaiementResponse>, t: Throwable) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Erreur serveur: Redémarrer l'application",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("Error", t.message.toString())
+                }
+            })
             // launch `GooglePayLauncher` to confirm a Payment Intent
-            googlePayLauncher.present(
+            //ma requete je lui envoie le token (avec l'id du user)
+            //il me retourne le client secret que je fou EN BAS LA
+            googlePayLauncher.presentForPaymentIntent("")
+
+            /*googlePayLauncher.present(
                 currencyCode = "EUR",
                 amount = panierPrice
-            )
+            )*/
         }
     }
 
@@ -49,9 +81,9 @@ class ValidateShopping : AppCompatActivity() {
         // implemented below
     }
 
-    private fun onGooglePayResult(result: GooglePayPaymentMethodLauncher.Result) {
+    private fun onGooglePayResult(result: GooglePayLauncher.Result) {
         when (result) {
-            is GooglePayPaymentMethodLauncher.Result.Completed -> {
+            is GooglePayLauncher.Result.Completed -> {
                 val localStorage = LocalStorage(applicationContext, "jwt")
                 // Payment succeeded, show a receipt view
                 Toast.makeText(applicationContext, "Completed", Toast.LENGTH_SHORT).show()
@@ -70,11 +102,11 @@ class ValidateShopping : AppCompatActivity() {
 
                 })
             }
-            GooglePayPaymentMethodLauncher.Result.Canceled -> {
+            GooglePayLauncher.Result.Canceled -> {
                 // User canceled the operation
                 Toast.makeText(applicationContext, "Canceled", Toast.LENGTH_SHORT).show()
             }
-            is GooglePayPaymentMethodLauncher.Result.Failed -> {
+            is GooglePayLauncher.Result.Failed -> {
                 // Operation failed; inspect `result.error` for the exception
                 Toast.makeText(applicationContext, "Failed", Toast.LENGTH_SHORT).show()
             }

@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -24,17 +26,20 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity() {
     lateinit var button: Button
     lateinit var emailTxt: EditText
     lateinit var passwordTxt: EditText
+    lateinit var clickHereButton: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         button = findViewById(R.id.loginButton);
         emailTxt = findViewById(R.id.editTextEmail);
         passwordTxt = findViewById(R.id.editTextPassword);
+        clickHereButton = findViewById(R.id.tvClickHere)
 
         checkIfAlreadyLog()
 
@@ -43,6 +48,11 @@ class LoginActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             login()
+        }
+
+        clickHereButton.setOnClickListener {
+            val intent = Intent(this, InscriptionActivity::class.java)
+            startActivityForResult(intent, 1)
         }
     }
 
