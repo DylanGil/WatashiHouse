@@ -103,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/bottomTotalShopping">
 
             <Button
-                android:id="@+id/validateShopppingButton"
+                android:id="@+id/googlePayButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="#1A192B"

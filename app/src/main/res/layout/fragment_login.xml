@@ -88,16 +88,30 @@
         android:textColor="@color/black" />
 
     <Button
-        android:id="@+id/disconnectButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEmailNOT"
+        android:id="@+id/editInfoButton"
+        android:layout_width="161dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/tvEmail"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="134dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="133dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:text="Modifier mes informations" />
+
+    <Button
+        android:id="@+id/disconnectButton"
+        android:layout_width="161dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/editInfoButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="133dp"
         android:gravity="center"
         android:orientation="vertical"
         android:text="Déconnexion" />
+
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.watashihouse
+package com.example.watashihouse.Utils
 
 import android.content.Context
 import androidx.datastore.preferences.core.clear

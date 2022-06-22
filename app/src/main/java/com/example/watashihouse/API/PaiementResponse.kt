@@ -1,4 +1,4 @@
-package com.example.watashihouse
+package com.example.watashihouse.API
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

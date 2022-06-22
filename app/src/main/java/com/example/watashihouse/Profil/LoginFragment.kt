@@ -1,4 +1,4 @@
-package com.example.watashihouse
+package com.example.watashihouse.Profil
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -10,15 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.watashihouse.Login.InscriptionActivity
+import com.example.watashihouse.Utils.LocalStorage
+import com.example.watashihouse.R
 import com.example.watashihouse.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import kotlin.system.exitProcess
 
 
 class LoginFragment : Fragment() {
@@ -30,6 +30,7 @@ class LoginFragment : Fragment() {
     lateinit var firstNameTxt: TextView
     lateinit var lastNameTxt: TextView
     lateinit var disconnectButton: Button
+    lateinit var editInfoButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +45,7 @@ class LoginFragment : Fragment() {
         firstNameTxt = view.findViewById(R.id.tvFirstName) as TextView
         lastNameTxt = view.findViewById(R.id.tvLastName) as TextView
         disconnectButton = view.findViewById(R.id.disconnectButton) as Button
+        editInfoButton = view.findViewById(R.id.editInfoButton) as Button
         initAction()
         return view
     }
@@ -63,6 +65,11 @@ class LoginFragment : Fragment() {
                     restartApp()
                 }
             }
+        }
+
+        editInfoButton.setOnClickListener {
+            val intent = Intent(activity, InscriptionActivity::class.java)
+            startActivityForResult(intent, 1)
         }
     }
 

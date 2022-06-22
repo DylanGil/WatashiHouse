@@ -1,9 +1,9 @@
-package com.example.watashihouse
+package com.example.watashihouse.API
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class UserInscriptionRequest {
+class UserEditRequest {
     @SerializedName("gender")
     @Expose
     var gender: String?= null
@@ -47,16 +47,4 @@ class UserInscriptionRequest {
     @SerializedName("typeUser")
     @Expose
     var typeUser: String? = "client"
-
-    @SerializedName("debitCards")
-    @Expose
-    var debitCards = listOf<Any>()
-
-    @SerializedName("orders")
-    @Expose
-    var orders = listOf<Any>()
-
-    @SerializedName("opinions")
-    @Expose
-    var opinions = listOf<Any>()
 }

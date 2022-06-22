@@ -1,8 +1,7 @@
-package com.example.watashihouse
+package com.example.watashihouse.ShoppingCart
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,24 +12,24 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.watashihouse.*
+import com.example.watashihouse.Utils.LocalStorage
+import com.example.watashihouse.API.Retro
+import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Meuble.MeubleAdapterDeleteButton
+import com.example.watashihouse.Meuble.MeubleDeleteButton
 import com.example.watashihouse.databinding.FragmentShoppingCartBinding
 import com.google.android.material.internal.ContextUtils
 import com.google.gson.JsonObject
-import com.stripe.android.PaymentConfiguration
-import com.stripe.android.googlepaylauncher.GooglePayEnvironment
-import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.system.exitProcess
 
 class ShoppingCartFragment : Fragment() {
 
@@ -73,7 +72,7 @@ class ShoppingCartFragment : Fragment() {
 
             })
         }
-        validateShopppingButton = view.findViewById(R.id.validateShopppingButton)
+        validateShopppingButton = view.findViewById(R.id.googlePayButton)
         validateShopppingButton.setOnClickListener {
             val intent = Intent(activity, ValidateShopping::class.java)
             intent.putExtra("panierPrice", panierPrice)

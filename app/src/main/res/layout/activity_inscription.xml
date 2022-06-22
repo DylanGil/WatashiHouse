@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".InscriptionActivity">
+    tools:context=".Login.InscriptionActivity">
 
     <TextView
         android:id="@+id/tvGenre"
@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="31dp"
         android:text="Genre: "
         android:textColor="@color/black"
         android:textSize="15dp" />

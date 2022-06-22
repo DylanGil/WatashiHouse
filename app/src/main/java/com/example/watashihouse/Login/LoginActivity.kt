@@ -1,32 +1,25 @@
-package com.example.watashihouse
+package com.example.watashihouse.Login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
-import androidx.datastore.preferences.createDataStore
-import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.auth0.android.jwt.JWT
-import com.stripe.android.PaymentConfiguration
-import com.stripe.android.googlepaylauncher.GooglePayEnvironment
-import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
-import kotlinx.coroutines.flow.first
+import com.example.watashihouse.*
+import com.example.watashihouse.Utils.LocalStorage
+import com.example.watashihouse.API.Retro
+import com.example.watashihouse.API.UserRequest
+import com.example.watashihouse.API.UserResponse
+import com.example.watashihouse.API.WatashiApi
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.HashMap
-import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity() {
     lateinit var button: Button

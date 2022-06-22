@@ -1,4 +1,4 @@
-package com.example.watashihouse
+package com.example.watashihouse.Home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.watashihouse.*
+import com.example.watashihouse.API.Retro
+import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Meuble.Meuble
+import com.example.watashihouse.Meuble.MeubleAdapter
 import com.example.watashihouse.databinding.FragmentHomeBinding
 import com.google.gson.JsonObject
 import retrofit2.Call

@@ -1,4 +1,4 @@
-package com.example.watashihouse
+package com.example.watashihouse.Favoris
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,12 +8,16 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.watashihouse.*
+import com.example.watashihouse.Utils.LocalStorage
+import com.example.watashihouse.API.Retro
+import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Meuble.Meuble
+import com.example.watashihouse.Meuble.MeubleAdapter
 import com.example.watashihouse.databinding.FragmentFavorisBinding
 import com.google.gson.JsonObject
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,16 +1,12 @@
-package com.example.watashihouse
+package com.example.watashihouse.Search
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import com.example.watashihouse.R
 import com.example.watashihouse.databinding.FragmentSearchBinding
-import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 

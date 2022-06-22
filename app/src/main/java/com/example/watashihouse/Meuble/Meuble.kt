@@ -1,6 +1,6 @@
-package com.example.watashihouse
+package com.example.watashihouse.Meuble
 
-data class MeubleDeleteButton (
+data class Meuble (
     var id: String,
     var title: String,
     var summary: String,

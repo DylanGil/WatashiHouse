@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ValidateShopping"
+    tools:context=".ShoppingCart.ValidateShopping"
     android:background="@android:color/white">
 
     <RelativeLayout
@@ -16,22 +16,22 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/validateShopppingButton"
+            android:id="@+id/googlePayButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#1A192B"
-            android:text="Payer"
+            android:text="payer avec Google Pay"
             android:textColor="@color/white"
             android:textSize="14dp"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <Button
-        android:id="@+id/pay_button"
+        android:id="@+id/cbButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="196dp"
-        android:text="Pay now"
+        android:text="Payer avec cb"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

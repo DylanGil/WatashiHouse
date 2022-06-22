@@ -1,4 +1,4 @@
-package com.example.watashihouse
+package com.example.watashihouse.Utils
 
 import androidx.fragment.app.FragmentActivity
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
@@ -18,8 +18,8 @@ class GooglePay {
                             merchantCountryCode = "FR",
                             merchantName = "Watashi House"
                         ),
-                        readyCallback = ::onGooglePayReady,
-                        resultCallback = ::onGooglePayResult
+                        readyCallback = Companion::onGooglePayReady,
+                        resultCallback = Companion::onGooglePayResult
                     )
                 }!!
             }
