@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
+import com.example.watashihouse.databinding.ActivityInscriptionBinding
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -13,73 +14,52 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class InscriptionActivity : AppCompatActivity() {
-    lateinit var inscriptionButton: Button
-    lateinit var radioGroup: RadioGroup
+    val binding by lazy { ActivityInscriptionBinding.inflate(layoutInflater) }
     lateinit var radioButton: RadioButton
-    lateinit var firstName: EditText
-    lateinit var lastName: EditText
-    lateinit var email: EditText
-    lateinit var password: EditText
-    lateinit var phoneNumber: EditText
-    lateinit var adresse: EditText
-    lateinit var codePostal: EditText
-    lateinit var city: EditText
-    lateinit var country: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inscription)
+        //setContentView(R.layout.activity_inscription)
+        setContentView(binding.root)
 
-        inscriptionButton = findViewById(R.id.inscriptionButton)
-        radioGroup = findViewById(R.id.rgHommeFemme)
-        firstName = findViewById(R.id.etFirstName)
-        lastName = findViewById(R.id.etLastName)
-        email = findViewById(R.id.etEmail)
-        password = findViewById(R.id.etPassword)
-        phoneNumber = findViewById(R.id.etPhone)
-        adresse = findViewById(R.id.etAdresse)
-        codePostal = findViewById(R.id.etCodePostal)
-        city = findViewById(R.id.etCity)
-        country = findViewById(R.id.etCountry)
-
-        inscriptionButton.setOnClickListener {
-            if(TextUtils.isEmpty(firstName.text)) {
+        binding.inscriptionButton.setOnClickListener {
+            if(binding.etFirstName.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez un prenom", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(lastName.text)) {
+            if(binding.etLastName.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez un nom de famille", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(email.text) || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.text).matches()) {
+            if(binding.etEmail.text.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.text).matches()) {
                 Toast.makeText(this, "Veuillez entrez un email valide", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(password.text)) {
+            if(binding.etPassword.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez un mot de passe", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(phoneNumber.text) || phoneNumber.text.length < 10) {
+            if(binding.etPhone.text.isBlank() || binding.etPhone.text.length < 10) {
                 Toast.makeText(this, "Veuillez entrez un n° de telephone valide", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(adresse.text)) {
+            if(binding.etAdresse.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez une adresse", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(codePostal.text)) {
+            if(binding.etCodePostal.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez un code postal", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(city.text)) {
+            if(binding.etCity.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez une ville", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            if(TextUtils.isEmpty(country.text)) {
+            if(binding.etCountry.text.isBlank()) {
                 Toast.makeText(this, "Veuillez entrez un pays", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener;
             }
-            val selectedId = radioGroup.checkedRadioButtonId
+            val selectedId = binding.rgHommeFemme.checkedRadioButtonId
             radioButton = findViewById(selectedId)
             //Toast.makeText(applicationContext, "Inscription", Toast.LENGTH_SHORT).show()
             register()
@@ -89,15 +69,15 @@ class InscriptionActivity : AppCompatActivity() {
     private fun register() {
         val request = UserInscriptionRequest()
         request.gender = radioButton.text.toString()
-        request.lastname = lastName.text.toString()
-        request.firstname = firstName.text.toString()
-        request.email = email.text.toString()
-        request.hash = password.text.toString()
-        request.phone = phoneNumber.text.toString()
-        request.address = adresse.text.toString()
-        request.zipCode = codePostal.text.toString()
-        request.city = city.text.toString()
-        request.country = country.text.toString()
+        request.lastname = binding.etLastName.text.toString()
+        request.firstname = binding.etFirstName.text.toString()
+        request.email = binding.etEmail.text.toString()
+        request.hash = binding.etPassword.text.toString()
+        request.phone = binding.etPhone.text.toString()
+        request.address = binding.etAdresse.text.toString()
+        request.zipCode = binding.etCodePostal.text.toString()
+        request.city = binding.etCity.text.toString()
+        request.country = binding.etCountry.text.toString()
 
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
         retro.register(request).enqueue(object : Callback<ResponseBody> {
