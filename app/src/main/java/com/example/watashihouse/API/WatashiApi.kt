@@ -57,9 +57,21 @@ interface WatashiApi {
         @Path("meubleId") meubleId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
+    @POST("/favoris/{favorisId}/ajouterArticle={meubleId}")
+    fun addToFavorite(
+        @Path("favorisId") favorisId: String,
+        @Path("meubleId") meubleId: String,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
+
     @DELETE("/paniers/{panierId}/supprimerArticle={meubleId}")
     fun deleteFromShoppingCart(
         @Path("panierId") panierId: String,
+        @Path("meubleId") meubleId: String,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
+
+    @DELETE("/favoris/{favorisId}/supprimerArticle={meubleId}")
+    fun deleteFromFavoris(
+        @Path("favorisId") favorisId: String,
         @Path("meubleId") meubleId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 }

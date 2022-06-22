@@ -79,7 +79,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="@color/blue"
-            android:drawableEnd="@android:drawable/btn_star" />
+            android:drawableEnd="@android:drawable/btn_star_big_on" />
 
         <Button
             android:id="@+id/addToCartButton"

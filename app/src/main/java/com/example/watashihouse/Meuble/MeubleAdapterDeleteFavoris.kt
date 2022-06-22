@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Favoris.FavorisFragment
 import com.example.watashihouse.MainActivity
 import com.example.watashihouse.R
+import com.example.watashihouse.ShoppingCart.ShoppingCartFragment
 import com.google.android.material.internal.ContextUtils.getActivity
 import com.squareup.picasso.Picasso
 import okhttp3.ResponseBody
@@ -21,12 +23,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>() {
+class MeubleAdapterDeleteFavoris(var items: List<MeubleDeleteFavorite>, favorisFragment: FavorisFragment) : RecyclerView.Adapter<MeubleAdapterDeleteFavoris.MeubleViewHolder>() {
 
 
+    private var favorisFragment = favorisFragment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeubleViewHolder {
-        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class, parent, false)
+        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class_delete_favoris, parent, false)
         return MeubleViewHolder(itemView)
     }
 
@@ -59,7 +62,7 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             addToFavorite = itemView.findViewById(R.id.addToFavoriteButton)
         }
 
-        fun bind(meuble: Meuble) {
+        fun bind(meuble: MeubleDeleteFavorite) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
@@ -114,10 +117,11 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             addToFavorite.setOnClickListener {
                 val localStorage = LocalStorage(itemView.context, "jwt")
                 val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.addToFavorite(localStorage.favorisId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
+                retro.deleteFromFavoris(localStorage.favorisId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au favoris", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(itemView.rootView.context, meuble.title + " supprimer des favoris", Toast.LENGTH_SHORT).show()
+                        favorisFragment.refreshFragment(favorisFragment)
 
                     }
 

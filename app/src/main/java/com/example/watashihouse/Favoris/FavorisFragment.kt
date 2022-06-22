@@ -16,6 +16,9 @@ import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
 import com.example.watashihouse.Meuble.Meuble
 import com.example.watashihouse.Meuble.MeubleAdapter
+import com.example.watashihouse.Meuble.MeubleAdapterDeleteFavoris
+import com.example.watashihouse.Meuble.MeubleDeleteFavorite
+import com.example.watashihouse.ShoppingCart.ShoppingCartFragment
 import com.example.watashihouse.databinding.FragmentFavorisBinding
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -49,8 +52,16 @@ class FavorisFragment : Fragment() {
             getUserFavoris()
     }
 
+    fun refreshFragment(fragment: FavorisFragment){
+
+        fragmentManager?.beginTransaction()?.detach(fragment)?.commit()
+        fragmentManager?.beginTransaction()?.attach(fragment)?.commit()
+        //val mainActivity = ContextUtils.getActivity(context) as MainActivity
+        //mainActivity.resetBadgeCount()
+    }
+
     private fun getUserFavoris() {
-        val listOfMeuble = mutableListOf<Meuble>()
+        val listOfMeuble = mutableListOf<MeubleDeleteFavorite>()
 
         var localStorage = LocalStorage(context, "jwt")
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
@@ -79,12 +90,12 @@ class FavorisFragment : Fragment() {
                             img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
                             val avis = 4.5F
 
-                            listOfMeuble += Meuble(id, name, description, img1,img2,img3,img4, avis, price.toString())
+                            listOfMeuble += MeubleDeleteFavorite(id, name, description, img1,img2,img3,img4, avis, price.toString())
                         }
 
                         recyclerViewMeuble.apply {
                             layoutManager = LinearLayoutManager(context)
-                            adapter = MeubleAdapter(listOfMeuble)
+                            adapter = MeubleAdapterDeleteFavoris(listOfMeuble, this@FavorisFragment)
                         }
                     }
                     loadingCircle.visibility = View.INVISIBLE
