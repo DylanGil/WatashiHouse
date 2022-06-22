@@ -102,40 +102,6 @@ class ValidateShopping : AppCompatActivity() {
         }
     }
 
-
-    //Achat CB
-
-    private fun onPaymentSheetResult(paymentResult: PaymentSheetResult) {
-        when (paymentResult) {
-            is PaymentSheetResult.Completed -> {
-                val localStorage = LocalStorage(applicationContext, "jwt")
-                Toast.makeText(applicationContext, "Merci de votre achat", Toast.LENGTH_SHORT).show()
-                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.deleteAllProductsFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object :
-                    Callback<ResponseBody> {
-                    @SuppressLint("RestrictedApi")
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        setResult(RESULT_OK)
-                        finish()
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.e("Error", t.message.toString())
-                    }
-
-                })
-            }
-            is PaymentSheetResult.Canceled -> {
-                Toast.makeText(applicationContext, "Achat annuler", Toast.LENGTH_SHORT).show()
-            }
-            is PaymentSheetResult.Failed -> {
-                Toast.makeText(applicationContext, "Echec", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
-
     //Google Pay
 
     private fun onGooglePayReady(isReady: Boolean) {}
@@ -166,6 +132,38 @@ class ValidateShopping : AppCompatActivity() {
             }
             is GooglePayLauncher.Result.Failed -> {
                 // Operation failed; inspect `result.error` for the exception
+                Toast.makeText(applicationContext, "Echec", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    //Achat CB
+
+    private fun onPaymentSheetResult(paymentResult: PaymentSheetResult) {
+        when (paymentResult) {
+            is PaymentSheetResult.Completed -> {
+                val localStorage = LocalStorage(applicationContext, "jwt")
+                Toast.makeText(applicationContext, "Merci de votre achat", Toast.LENGTH_SHORT).show()
+                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+                retro.deleteAllProductsFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object :
+                    Callback<ResponseBody> {
+                    @SuppressLint("RestrictedApi")
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        setResult(RESULT_OK)
+                        finish()
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("Error", t.message.toString())
+                    }
+
+                })
+            }
+            is PaymentSheetResult.Canceled -> {
+                Toast.makeText(applicationContext, "Achat annuler", Toast.LENGTH_SHORT).show()
+            }
+            is PaymentSheetResult.Failed -> {
                 Toast.makeText(applicationContext, "Echec", Toast.LENGTH_SHORT).show()
             }
         }
