@@ -1,6 +1,7 @@
 package com.example.watashihouse.Meuble
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -60,7 +61,9 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
-            //meubleImage.setImageResource(meuble.image)
+            /*if(meuble.rating == -1f){
+                ratingBar.visibility = View.INVISIBLE
+            }*/
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
             addToCart.text = "Ajouter au panier"
