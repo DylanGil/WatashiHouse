@@ -92,7 +92,7 @@ class MeubleAdapterDeleteButton(context : Context, shoppingCartFragment: Shoppin
             deleteFromCart.setOnClickListener {
                 val localStorage = LocalStorage(itemView.context, "jwt")
                 val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.deleteFromShoppingCart(localStorage.userId, meuble.id, localStorage.jwtToken).enqueue(object :
+                retro.deleteFromShoppingCart(localStorage.panierId, meuble.id, localStorage.jwtToken).enqueue(object :
                     Callback<ResponseBody> {
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

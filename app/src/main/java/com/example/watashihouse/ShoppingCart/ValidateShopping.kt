@@ -4,13 +4,22 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.API.PaiementResponse
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Meuble.Meuble
+import com.example.watashihouse.Meuble.MeubleAdapter
+import com.example.watashihouse.Meuble.MeubleAdapterDeleteButton
+import com.example.watashihouse.Meuble.MeubleDeleteButton
 import com.example.watashihouse.R
+import com.example.watashihouse.databinding.ActivityInscriptionBinding
+import com.example.watashihouse.databinding.ActivityValidateShoppingBinding
+import com.google.gson.JsonObject
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
 import com.stripe.android.googlepaylauncher.GooglePayLauncher
@@ -22,15 +31,17 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ValidateShopping : AppCompatActivity() {
-    private lateinit var googlePayButton: Button
+    private lateinit var googlePayButton: RelativeLayout
     private lateinit var cbButton: Button
     private lateinit var paymentSheet: PaymentSheet
+    private lateinit var totalNumberText: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_validate_shopping)
 
 
         var panierPrice = intent.getIntExtra("panierPrice", 0)
+        totalNumberText = findViewById(R.id.totalNumberText)
         PaymentConfiguration.init(this, "pk_test_51LCT6xCrEfc8tDFiYDS3VxJ3L6Ko8h9W1YTQNWLUyYFGBB3YKlCfaOUT6AjSmNLGJRKlgQregwvnU9feyzwVbOQz00jmapAknC")
 
         //googlePay
@@ -100,6 +111,7 @@ class ValidateShopping : AppCompatActivity() {
                 }
             })
         }
+        getUserShoppingCart()
     }
 
     //Google Pay
@@ -112,7 +124,7 @@ class ValidateShopping : AppCompatActivity() {
                 val localStorage = LocalStorage(applicationContext, "jwt")
                 Toast.makeText(applicationContext, "Merci de votre achat", Toast.LENGTH_SHORT).show()
                 val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.deleteAllProductsFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object :
+                retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object :
                     Callback<ResponseBody> {
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -146,7 +158,7 @@ class ValidateShopping : AppCompatActivity() {
                 val localStorage = LocalStorage(applicationContext, "jwt")
                 Toast.makeText(applicationContext, "Merci de votre achat", Toast.LENGTH_SHORT).show()
                 val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.deleteAllProductsFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object :
+                retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object :
                     Callback<ResponseBody> {
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -167,5 +179,28 @@ class ValidateShopping : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Echec", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun getUserShoppingCart() {
+        var localStorage = LocalStorage(applicationContext, "jwt")
+        val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+        retro.getUserProductFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object : Callback<JsonObject>{
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if(response.isSuccessful){
+                    //prix total du panier
+                    var prixTotalPanier = response.body()?.get("price")?.asDouble
+                    if(prixTotalPanier == 0.0){}else{
+                        prixTotalPanier = prixTotalPanier?.div(100)
+                        totalNumberText.text = prixTotalPanier.toString() + "€"
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                t.message?.let { Log.i("MON PUTAIN DE TAG", it) }
+                //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

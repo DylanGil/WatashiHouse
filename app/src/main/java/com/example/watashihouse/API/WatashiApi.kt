@@ -46,20 +46,20 @@ interface WatashiApi {
         @Path("userId") userId: String,
         @Header("Authentication") Authentication: String): Call<JsonObject>
 
-    @DELETE("/paniers/{userId}/supprimerArticle")
+    @DELETE("/paniers/{panierId}/supprimerArticle")
     fun deleteAllProductsFromShoppingCart(
-        @Path("userId") userId: String,
+        @Path("panierId") panierId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
-    @POST("/paniers/{userId}/ajouterArticle={meubleId}")
+    @POST("/paniers/{panierId}/ajouterArticle={meubleId}")
     fun addToShoppingCart(
-        @Path("userId") userId: String,
+        @Path("panierId") panierId: String,
         @Path("meubleId") meubleId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
-    @DELETE("/paniers/{userId}/supprimerArticle={meubleId}")
+    @DELETE("/paniers/{panierId}/supprimerArticle={meubleId}")
     fun deleteFromShoppingCart(
-        @Path("userId") userId: String,
+        @Path("panierId") panierId: String,
         @Path("meubleId") meubleId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 }

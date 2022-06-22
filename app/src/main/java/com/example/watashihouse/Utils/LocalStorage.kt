@@ -17,6 +17,8 @@ class LocalStorage(context: Context?, dataStoreName: String) {
     var userFirstName = ""
     var userLastName = ""
     var userEmail = ""
+    var panierId = ""
+    var favorisId = ""
     private val dataStore = context?.createDataStore(name = name)
 
     init {
@@ -28,6 +30,8 @@ class LocalStorage(context: Context?, dataStoreName: String) {
                 userFirstName = jwt?.getClaim("firstname")?.asString().toString()
                 userLastName = jwt?.getClaim("lastname")?.asString().toString()
                 userEmail = jwt?.getClaim("email")?.asString().toString()
+                panierId = jwt?.getClaim("id_panier")?.asString().toString()
+                favorisId = jwt?.getClaim("id_favoris")?.asString().toString()
             }
         }
     }

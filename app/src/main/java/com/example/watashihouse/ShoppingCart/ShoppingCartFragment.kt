@@ -58,7 +58,7 @@ class ShoppingCartFragment : Fragment() {
         deleteShoppingCartButton = view.findViewById(R.id.deleteShoppingCartButton)
         deleteShoppingCartButton.setOnClickListener {
             val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-            retro.deleteAllProductsFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
+            retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
                 @SuppressLint("RestrictedApi")
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Toast.makeText(context, "Le panier a bien été vidé", Toast.LENGTH_SHORT).show()

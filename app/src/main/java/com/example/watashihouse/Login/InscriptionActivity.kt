@@ -170,7 +170,7 @@ class InscriptionActivity : AppCompatActivity() {
                     //passwordTxt.text = Editable.Factory.getInstance().newEditable(user!!.token)
                     logOk(true)
                 } else {
-                    Toast.makeText(applicationContext, "User inexistant", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Erreur", Toast.LENGTH_SHORT).show()
                 }
                 /*Log.e("hash", user!!.data?.hash.toString())
                 Log.e("email", user!!.data?.email.toString())*/

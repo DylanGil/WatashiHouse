@@ -89,7 +89,7 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             addToCart.setOnClickListener {
                 val localStorage = LocalStorage(itemView.context, "jwt")
                 val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.addToShoppingCart(localStorage.userId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
+                retro.addToShoppingCart(localStorage.panierId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
