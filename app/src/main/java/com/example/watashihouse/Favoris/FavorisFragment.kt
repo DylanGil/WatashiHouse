@@ -1,10 +1,12 @@
 package com.example.watashihouse.Favoris
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,13 +16,11 @@ import com.example.watashihouse.*
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
-import com.example.watashihouse.Meuble.Meuble
-import com.example.watashihouse.Meuble.MeubleAdapter
 import com.example.watashihouse.Meuble.MeubleAdapterDeleteFavoris
 import com.example.watashihouse.Meuble.MeubleDeleteFavorite
-import com.example.watashihouse.ShoppingCart.ShoppingCartFragment
 import com.example.watashihouse.databinding.FragmentFavorisBinding
 import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +31,7 @@ class FavorisFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var recyclerViewMeuble: RecyclerView
     lateinit var loadingCircle: ProgressBar
+    private lateinit var deleteFavoriteButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,8 +42,26 @@ class FavorisFragment : Fragment() {
         _binding = FragmentFavorisBinding.inflate(inflater, container, false)
         var view = inflater.inflate(R.layout.fragment_favoris, container, false)
 
+        val localStorage = LocalStorage(context, "jwt")
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewFavoris) as RecyclerView
         loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
+        deleteFavoriteButton = view.findViewById(R.id.deleteFavoriteButton)
+        deleteFavoriteButton.setOnClickListener {
+            val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+            retro.deleteAllProductsFromFavorite(localStorage.favorisId, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("RestrictedApi")
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    Toast.makeText(context, "Les favoris ont bien été vidés", Toast.LENGTH_SHORT).show()
+                    refreshFragment(this@FavorisFragment)
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e("Error", t.message.toString())
+                    Toast.makeText(context, "Erreur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+        }
 
         primaryFunction()
         return view

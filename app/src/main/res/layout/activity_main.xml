@@ -19,9 +19,8 @@
             android:id="@+id/watashiHouseImage"
             android:layout_width="77dp"
             android:layout_height="67dp"
-            android:layout_marginStart="160dp"
             android:layout_marginTop="-1dp"
-            android:layout_marginEnd="157dp"
+            android:layout_centerHorizontal="true"
             android:contentDescription="logoWatashiHouse"
             app:srcCompat="@drawable/watashihouse" />
 

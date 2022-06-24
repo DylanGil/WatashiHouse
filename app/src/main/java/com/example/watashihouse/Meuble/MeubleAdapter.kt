@@ -21,9 +21,33 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>() {
+class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>(), Filterable {
 
+    var meubleFilteredList: List<Meuble> = ArrayList()
 
+    init {
+        meubleFilteredList = items
+    }
+    override fun getFilter(): Filter {
+        return object: Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                var charSearch = constraint.toString()
+                if(charSearch.isEmpty()){
+                    meubleFilteredList = items
+                }else{
+                    meubleFilteredList = items.filter { meuble ->  meuble.title.lowercase().contains(charSearch.lowercase()) }
+                }
+                val filterResult = FilterResults()
+                filterResult.values = meubleFilteredList
+                return filterResult
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                meubleFilteredList = results?.values as ArrayList<Meuble>
+                notifyDataSetChanged()
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeubleViewHolder {
         val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class, parent, false)
@@ -31,11 +55,11 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
     }
 
     override fun onBindViewHolder(holder: MeubleViewHolder, position: Int) {
-        val meuble = items[position]
+        val meuble = meubleFilteredList[position]
         holder.bind(meuble)
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = meubleFilteredList.size
 
     inner class MeubleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView.rootView){
 

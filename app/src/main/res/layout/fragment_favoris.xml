@@ -22,16 +22,28 @@
             app:layout_constraintTop_toTopOf="@+id/recyclerViewFavoris"
             tools:layout_editor_absoluteX="167dp" />
 
+        <Button
+            android:id="@+id/deleteFavoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="120dp"
+            android:backgroundTint="#1A192B"
+            android:text="Vider les favoris"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFavoris"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/deleteFavoriteButton"
+            android:layout_marginTop="44dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            app:layout_constraintTop_toBottomOf="@+id/deleteFavoriteButton"
             tools:itemCount="5"
             tools:layout_editor_absoluteX="190dp"
-            tools:layout_editor_absoluteY="353dp"
             tools:listitem="@layout/item_class" />
 
 

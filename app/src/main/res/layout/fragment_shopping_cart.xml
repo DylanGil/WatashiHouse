@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
-            android:id="@+id/deleteShoppingCartButton"
+            android:id="@+id/deleteFavoriteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="135dp"
@@ -39,10 +39,10 @@
             android:id="@+id/recyclerViewShoppingCart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/deleteShoppingCartButton"
+            android:layout_below="@+id/deleteFavoriteButton"
             android:layout_marginTop="44dp"
             android:layout_marginBottom="90dp"
-            app:layout_constraintTop_toBottomOf="@+id/deleteShoppingCartButton"
+            app:layout_constraintTop_toBottomOf="@+id/deleteFavoriteButton"
             tools:itemCount="5"
             tools:layout_editor_absoluteX="205dp"
             tools:listitem="@layout/item_class_delete_button" />

@@ -43,13 +43,13 @@ class HomeFragment : Fragment() {
         val listOfMeuble = mutableListOf<Meuble>()
 
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-        retro.getAllProducts().enqueue(object : Callback<JsonObject>{
+        retro.getAllProductsOrderByNote().enqueue(object : Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if(response.isSuccessful){
 
                     val result = response.body()?.get("content")?.asJsonArray
 
-                    for (i in 1..8){
+                    for (i in 0..7){
                         val element = result?.get(i)
                         val monMeuble = element?.asJsonObject
                         val id = monMeuble?.get("id").toString()

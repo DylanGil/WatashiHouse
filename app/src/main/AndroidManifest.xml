@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WatashiHouse">
         <activity
+            android:name=".Search.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".Login.InscriptionActivity"
             android:exported="false" />
         <activity

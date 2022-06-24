@@ -1,5 +1,6 @@
 package com.example.watashihouse.API
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -29,7 +30,15 @@ interface WatashiApi {
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
     @GET("/articles?sortBy=note&orderBy=DESC")
+    fun getAllProductsOrderByNote(): Call<JsonObject>
+
+    @GET("/articles")
     fun getAllProducts(): Call<JsonObject>
+
+
+    @GET("/articles/souscategorie={sousCatId}?sortBy=note")
+    fun getProductFromSousCategorie(
+        @Path("sousCatId") sousCatId: String): Call<JsonObject>
 
     @POST("/create-payment-intent/prix={price}")
     fun validatePaiement(
@@ -49,6 +58,11 @@ interface WatashiApi {
     @DELETE("/paniers/{panierId}/supprimerArticle")
     fun deleteAllProductsFromShoppingCart(
         @Path("panierId") panierId: String,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
+
+    @DELETE("/favoris/{favorisId}/supprimerArticle")
+    fun deleteAllProductsFromFavorite(
+        @Path("favorisId") favorisId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
     @POST("/paniers/{panierId}/ajouterArticle={meubleId}")
@@ -74,4 +88,7 @@ interface WatashiApi {
         @Path("favorisId") favorisId: String,
         @Path("meubleId") meubleId: String,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
+
+    @GET("/sous-categories")
+    fun getSousCategories(): Call<JsonArray>
 }

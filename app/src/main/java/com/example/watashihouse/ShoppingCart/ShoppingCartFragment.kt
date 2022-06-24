@@ -55,7 +55,7 @@ class ShoppingCartFragment : Fragment() {
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewShoppingCart) as RecyclerView
         loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
         totalNumberText = view.findViewById(R.id.totalNumberText) as TextView
-        deleteShoppingCartButton = view.findViewById(R.id.deleteShoppingCartButton)
+        deleteShoppingCartButton = view.findViewById(R.id.deleteFavoriteButton)
         deleteShoppingCartButton.setOnClickListener {
             val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
             retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
@@ -76,7 +76,7 @@ class ShoppingCartFragment : Fragment() {
         validateShopppingButton.setOnClickListener {
             val intent = Intent(activity, ValidateShopping::class.java)
             intent.putExtra("panierPrice", panierPrice)
-            startActivityForResult(intent, 1) //startActivityForResult(intent, 1)
+            startActivityForResult(intent, 1)
         }
         primaryFunction()
         return view
