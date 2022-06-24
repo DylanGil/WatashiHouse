@@ -15,6 +15,9 @@
             android:name=".Commande.CommandeActivity"
             android:exported="false" />
         <activity
+            android:name=".Commande.CommandesActivity"
+            android:exported="false" />
+        <activity
             android:name=".Search.SearchActivity"
             android:exported="false" />
         <activity

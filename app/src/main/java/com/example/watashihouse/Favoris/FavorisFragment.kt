@@ -16,8 +16,8 @@ import com.example.watashihouse.*
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Meuble.Meuble
 import com.example.watashihouse.Meuble.MeubleAdapterDeleteFavoris
-import com.example.watashihouse.Meuble.MeubleDeleteFavorite
 import com.example.watashihouse.databinding.FragmentFavorisBinding
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
@@ -80,7 +80,7 @@ class FavorisFragment : Fragment() {
     }
 
     private fun getUserFavoris() {
-        val listOfMeuble = mutableListOf<MeubleDeleteFavorite>()
+        val listOfMeuble = mutableListOf<Meuble>()
 
         var localStorage = LocalStorage(context, "jwt")
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
@@ -112,7 +112,7 @@ class FavorisFragment : Fragment() {
                                 img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
                                 val avis = 4.5F
 
-                                listOfMeuble += MeubleDeleteFavorite(
+                                listOfMeuble += Meuble(
                                     id,
                                     name,
                                     description,

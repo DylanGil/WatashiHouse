@@ -17,12 +17,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.*
-import com.example.watashihouse.API.CommandeRequestId
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
+import com.example.watashihouse.Meuble.Meuble
 import com.example.watashihouse.Meuble.MeubleAdapterDeleteButton
-import com.example.watashihouse.Meuble.MeubleDeleteButton
 import com.example.watashihouse.databinding.FragmentShoppingCartBinding
 import com.google.android.material.internal.ContextUtils
 import com.google.gson.JsonObject
@@ -121,7 +120,7 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun getUserShoppingCart() {
-        val listOfMeuble = mutableListOf<MeubleDeleteButton>()
+        val listOfMeuble = mutableListOf<Meuble>()
 
         var localStorage = LocalStorage(context, "jwt")
         val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
@@ -161,7 +160,7 @@ class ShoppingCartFragment : Fragment() {
                                 val avis = 4.5F
 
                                 panierMeubleId.add(id)
-                                listOfMeuble += MeubleDeleteButton(
+                                listOfMeuble += Meuble(
                                     id,
                                     name,
                                     description,

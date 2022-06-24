@@ -20,7 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>(), Filterable {
+class MeubleAdapterNoButton(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapterNoButton.MeubleViewHolder>(), Filterable {
 
     var meubleFilteredList: List<Meuble> = ArrayList()
 
@@ -49,7 +49,7 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeubleViewHolder {
-        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class, parent, false)
+        val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item_class_no_button, parent, false)
         return MeubleViewHolder(itemView)
     }
 
@@ -112,44 +112,6 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
                         wichImg = 1
                     }
                 }
-            }
-
-            addToCart.setOnClickListener {
-                val localStorage = LocalStorage(itemView.context, "jwt")
-                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.addToShoppingCart(localStorage.panierId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
-                    @SuppressLint("RestrictedApi")
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
-                        val mainActivity = getActivity(itemView.context) as MainActivity
-                        mainActivity.addValueBadgeCount(1)
-
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.e("Error", t.message.toString())
-                        Toast.makeText(itemView.rootView.context, "Erreur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
-                    }
-
-                })
-            }
-
-            addToFavorite.setOnClickListener {
-                val localStorage = LocalStorage(itemView.context, "jwt")
-                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.addToFavorite(localStorage.favorisId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
-                    @SuppressLint("RestrictedApi")
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au favoris", Toast.LENGTH_SHORT).show()
-
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.e("Error", t.message.toString())
-                        Toast.makeText(itemView.rootView.context, "Erreur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
-                    }
-
-                })
             }
         }
 

@@ -12,6 +12,7 @@
     >
 
     <RelativeLayout
+        android:id="@id/test"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -68,34 +69,6 @@
             android:progressTint="@color/yellowStars"
             android:secondaryProgressTint="#FF5722"
             tools:rating="4" />
-
-        <Button
-            android:id="@+id/addToFavoriteButton"
-            android:layout_width="63dp"
-            android:layout_height="31dp"
-            android:layout_below="@+id/addToCartButton"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="26dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/blue"
-            android:drawableEnd="@android:drawable/btn_star_big_on" />
-
-        <Button
-            android:id="@+id/addToCartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="26dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="6dp"
-            android:width="160dp"
-            android:backgroundTint="@color/white"
-            android:text="AJOUTER AU PANIER"
-            android:textColor="@color/blue"
-            android:textSize="11dp"
-            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"

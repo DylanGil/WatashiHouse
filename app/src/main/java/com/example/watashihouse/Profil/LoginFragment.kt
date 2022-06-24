@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.watashihouse.Commande.CommandeActivity
+import com.example.watashihouse.Commande.CommandesActivity
 import com.example.watashihouse.Login.InscriptionActivity
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.R
@@ -76,7 +76,7 @@ class LoginFragment : Fragment() {
         }
 
         commandeButton.setOnClickListener {
-            val intent = Intent(activity, CommandeActivity::class.java)
+            val intent = Intent(activity, CommandesActivity::class.java)
             startActivity(intent)
         }
     }

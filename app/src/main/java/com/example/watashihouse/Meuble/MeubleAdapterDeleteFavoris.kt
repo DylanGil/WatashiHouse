@@ -1,7 +1,6 @@
 package com.example.watashihouse.Meuble
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.example.watashihouse.API.WatashiApi
 import com.example.watashihouse.Favoris.FavorisFragment
 import com.example.watashihouse.MainActivity
 import com.example.watashihouse.R
-import com.example.watashihouse.ShoppingCart.ShoppingCartFragment
 import com.google.android.material.internal.ContextUtils.getActivity
 import com.squareup.picasso.Picasso
 import okhttp3.ResponseBody
@@ -23,7 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MeubleAdapterDeleteFavoris(var items: List<MeubleDeleteFavorite>, favorisFragment: FavorisFragment) : RecyclerView.Adapter<MeubleAdapterDeleteFavoris.MeubleViewHolder>() {
+class MeubleAdapterDeleteFavoris(var items: List<Meuble>, favorisFragment: FavorisFragment) : RecyclerView.Adapter<MeubleAdapterDeleteFavoris.MeubleViewHolder>() {
 
 
     private var favorisFragment = favorisFragment
@@ -52,17 +50,17 @@ class MeubleAdapterDeleteFavoris(var items: List<MeubleDeleteFavorite>, favorisF
         var wichImg: Int
 
         init {
-            meubleTitle = itemView.findViewById(R.id.meubleTitle)
+            meubleTitle = itemView.findViewById(R.id.commandeNumber)
             meubleSummary = itemView.findViewById(R.id.meubleSummary)
-            meublePrice = itemView.findViewById(R.id.meublePrice)
-            meubleImage = itemView.findViewById(R.id.meubleImage)
+            meublePrice = itemView.findViewById(R.id.commandePrice)
+            meubleImage = itemView.findViewById(R.id.commandeImage)
             wichImg = 1
             ratingBar = itemView.findViewById(R.id.ratingBar)
             addToCart = itemView.findViewById(R.id.addToCartButton)
             addToFavorite = itemView.findViewById(R.id.addToFavoriteButton)
         }
 
-        fun bind(meuble: MeubleDeleteFavorite) {
+        fun bind(meuble: Meuble) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)

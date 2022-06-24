@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MeubleAdapterDeleteButton(context : Context, shoppingCartFragment: ShoppingCartFragment, var items: List<MeubleDeleteButton>) : RecyclerView.Adapter<MeubleAdapterDeleteButton.MeubleViewHolder>() {
+class MeubleAdapterDeleteButton(context : Context, shoppingCartFragment: ShoppingCartFragment, var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapterDeleteButton.MeubleViewHolder>() {
 
     private var mContext = context
     private var shoppingCartFragment = shoppingCartFragment
@@ -49,17 +49,17 @@ class MeubleAdapterDeleteButton(context : Context, shoppingCartFragment: Shoppin
         var wichImg: Int
 
         init {
-            meubleTitle = itemView.findViewById(R.id.meubleTitle)
+            meubleTitle = itemView.findViewById(R.id.commandeNumber)
             meubleSummary = itemView.findViewById(R.id.meubleSummary)
-            meublePrice = itemView.findViewById(R.id.meublePrice)
-            meubleImage = itemView.findViewById(R.id.meubleImage)
+            meublePrice = itemView.findViewById(R.id.commandePrice)
+            meubleImage = itemView.findViewById(R.id.commandeImage)
             wichImg = 1
             ratingBar = itemView.findViewById(R.id.ratingBar)
             deleteFromCart = itemView.findViewById(R.id.removeFromCartButton)
 
         }
 
-        fun bind(meuble: MeubleDeleteButton) {
+        fun bind(meuble: Meuble) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)

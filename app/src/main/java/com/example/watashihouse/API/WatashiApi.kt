@@ -1,5 +1,6 @@
 package com.example.watashihouse.API
 
+import com.example.watashihouse.Commande.CommandesResponse
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
@@ -96,10 +97,10 @@ interface WatashiApi {
         @Body commandeRequest: CommandeRequest,
         @Header("Authentication") Authentication: String): Call<ResponseBody>
 
-    @GET("/commandes/utilisateur={userId}")
+    @GET("/commandes/utilisateurs={userId}")
     fun getCommandesFromUser(
         @Path("userId") userId: String,
-        @Header("Authentication") Authentication: String): Call<JsonObject>
+        @Header("Authentication") Authentication: String): Call<CommandesResponse>
 
     @GET("/commandes/{commandeId}")
     fun getCommande(
