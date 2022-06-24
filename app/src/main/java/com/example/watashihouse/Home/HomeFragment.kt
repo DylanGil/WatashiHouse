@@ -52,26 +52,29 @@ class HomeFragment : Fragment() {
                     for (i in 0..7){
                         val element = result?.get(i)
                         val monMeuble = element?.asJsonObject
-                        val id = monMeuble?.get("id").toString()
-                        var name = monMeuble?.get("name").toString().drop(1).dropLast(1)
-                        var price = monMeuble?.get("price")?.asDouble?.div(100)
-                        var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
-                        var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
-                        var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
-                        var img3 = "image3"
-                        var img4 = "image4"
-                        if(monMeuble?.get("image3").toString() == "null")
-                            img3 = "image1"
-                        if(monMeuble?.get("image4").toString() == "null")
-                            img4 = "image2"
-                        img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
-                        img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
-                        var avis = -1.0f
-                        if(monMeuble?.get("note").toString() != "null")
-                            avis = monMeuble?.get("note")?.asFloat!!
+                        val stock = monMeuble?.get("stock")?.asInt
+                        if(stock != 0){
+                            val id = monMeuble?.get("id").toString()
+                            var name = monMeuble?.get("name").toString().drop(1).dropLast(1)
+                            var price = monMeuble?.get("price")?.asDouble?.div(100)
+                            var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
+                            var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
+                            var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
+                            var img3 = "image3"
+                            var img4 = "image4"
+                            if(monMeuble?.get("image3").toString() == "null")
+                                img3 = "image1"
+                            if(monMeuble?.get("image4").toString() == "null")
+                                img4 = "image2"
+                            img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
+                            img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
+                            var avis = -1.0f
+                            if(monMeuble?.get("note").toString() != "null")
+                                avis = monMeuble?.get("note")?.asFloat!!
 
-                            listOfMeuble += Meuble(id, name, description, img1,img2,img3,img4, avis, price.toString());
-                    }
+                            listOfMeuble += Meuble(id, name, description, img1,img2,img3,img4, avis, price.toString())
+                        }
+                        }
 
                     recyclerViewMeuble.apply {
                         layoutManager = LinearLayoutManager(this.context)

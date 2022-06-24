@@ -35,7 +35,6 @@ interface WatashiApi {
     @GET("/articles")
     fun getAllProducts(): Call<JsonObject>
 
-
     @GET("/articles/souscategorie={sousCatId}?sortBy=note")
     fun getProductFromSousCategorie(
         @Path("sousCatId") sousCatId: String): Call<JsonObject>
@@ -91,4 +90,19 @@ interface WatashiApi {
 
     @GET("/sous-categories")
     fun getSousCategories(): Call<JsonArray>
+
+    @POST("/commandes")
+    fun addToCommande(
+        @Body commandeRequest: CommandeRequest,
+        @Header("Authentication") Authentication: String): Call<ResponseBody>
+
+    @GET("/commandes/utilisateur={userId}")
+    fun getCommandesFromUser(
+        @Path("userId") userId: String,
+        @Header("Authentication") Authentication: String): Call<JsonObject>
+
+    @GET("/commandes/{commandeId}")
+    fun getCommande(
+        @Path("commandeId") commandeId: String,
+        @Header("Authentication") Authentication: String): Call<JsonObject>
 }

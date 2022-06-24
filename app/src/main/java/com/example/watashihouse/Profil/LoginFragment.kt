@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.watashihouse.Commande.CommandeActivity
 import com.example.watashihouse.Login.InscriptionActivity
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.R
@@ -31,6 +32,7 @@ class LoginFragment : Fragment() {
     lateinit var lastNameTxt: TextView
     lateinit var disconnectButton: Button
     lateinit var editInfoButton: Button
+    lateinit var commandeButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +48,7 @@ class LoginFragment : Fragment() {
         lastNameTxt = view.findViewById(R.id.tvLastName) as TextView
         disconnectButton = view.findViewById(R.id.disconnectButton) as Button
         editInfoButton = view.findViewById(R.id.editInfoButton) as Button
+        commandeButton = view.findViewById(R.id.commandeButton) as Button
         initAction()
         return view
     }
@@ -69,7 +72,12 @@ class LoginFragment : Fragment() {
 
         editInfoButton.setOnClickListener {
             val intent = Intent(activity, InscriptionActivity::class.java)
-            startActivityForResult(intent, 1)
+            startActivity(intent)
+        }
+
+        commandeButton.setOnClickListener {
+            val intent = Intent(activity, CommandeActivity::class.java)
+            startActivity(intent)
         }
     }
 

@@ -4,21 +4,10 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.watashihouse.API.PaiementResponse
+import com.example.watashihouse.API.*
 import com.example.watashihouse.Utils.LocalStorage
-import com.example.watashihouse.API.Retro
-import com.example.watashihouse.API.WatashiApi
-import com.example.watashihouse.Meuble.Meuble
-import com.example.watashihouse.Meuble.MeubleAdapter
-import com.example.watashihouse.Meuble.MeubleAdapterDeleteButton
-import com.example.watashihouse.Meuble.MeubleDeleteButton
 import com.example.watashihouse.R
-import com.example.watashihouse.databinding.ActivityInscriptionBinding
-import com.example.watashihouse.databinding.ActivityValidateShoppingBinding
 import com.google.gson.JsonObject
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
@@ -35,14 +24,24 @@ class ValidateShopping : AppCompatActivity() {
     private lateinit var cbButton: Button
     private lateinit var paymentSheet: PaymentSheet
     private lateinit var totalNumberText: TextView
+    private lateinit var panierMeubleIds: ArrayList<String>
+    private var listOfCommandeRequestId = mutableListOf<CommandeRequestId>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_validate_shopping)
 
 
         var panierPrice = intent.getIntExtra("panierPrice", 0)
+        panierMeubleIds = intent.getStringArrayListExtra("panierMeubleId") as ArrayList<String>
+
+        panierMeubleIds.forEach {id ->
+            var commandeRequestId = CommandeRequestId(id.toInt())
+            listOfCommandeRequestId.add(commandeRequestId)
+        }
+
         totalNumberText = findViewById(R.id.totalNumberText)
         PaymentConfiguration.init(this, "pk_test_51LCT6xCrEfc8tDFiYDS3VxJ3L6Ko8h9W1YTQNWLUyYFGBB3YKlCfaOUT6AjSmNLGJRKlgQregwvnU9feyzwVbOQz00jmapAknC")
+
 
         //googlePay
         googlePayButton = findViewById(R.id.googlePayButton)
@@ -121,22 +120,8 @@ class ValidateShopping : AppCompatActivity() {
     private fun onGooglePayResult(result: GooglePayLauncher.Result) {
         when (result) {
             is GooglePayLauncher.Result.Completed -> {
-                val localStorage = LocalStorage(applicationContext, "jwt")
+                addToCommande() //ajoute au commande + supprime du panier
                 Toast.makeText(applicationContext, "Merci de votre achat", Toast.LENGTH_SHORT).show()
-                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object :
-                    Callback<ResponseBody> {
-                    @SuppressLint("RestrictedApi")
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        setResult(RESULT_OK)
-                        finish()
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.e("Error", t.message.toString())
-                    }
-
-                })
             }
             GooglePayLauncher.Result.Canceled -> {
                 // User canceled the operation
@@ -155,22 +140,8 @@ class ValidateShopping : AppCompatActivity() {
     private fun onPaymentSheetResult(paymentResult: PaymentSheetResult) {
         when (paymentResult) {
             is PaymentSheetResult.Completed -> {
-                val localStorage = LocalStorage(applicationContext, "jwt")
+                addToCommande() //ajoute au commande + supprime du panier
                 Toast.makeText(applicationContext, "Merci de votre achat", Toast.LENGTH_SHORT).show()
-                val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
-                retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object :
-                    Callback<ResponseBody> {
-                    @SuppressLint("RestrictedApi")
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        setResult(RESULT_OK)
-                        finish()
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.e("Error", t.message.toString())
-                    }
-
-                })
             }
             is PaymentSheetResult.Canceled -> {
                 Toast.makeText(applicationContext, "Achat annuler", Toast.LENGTH_SHORT).show()
@@ -202,5 +173,42 @@ class ValidateShopping : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun addToCommande(){
+        val localStorage = LocalStorage(applicationContext, "jwt")
+        val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
+        var request = CommandeRequest()
+        request.user = CommandeRequestId(localStorage.userId.toInt())
+        request.items = listOfCommandeRequestId
+        retro.addToCommande(request, localStorage.jwtToken).enqueue(object :
+            Callback<ResponseBody> {
+            @SuppressLint("RestrictedApi")
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                deleteAllProductFromShoppingCart(retro, localStorage)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("Error", t.message.toString())
+            }
+
+        })
+    }
+
+    private fun deleteAllProductFromShoppingCart(retro: WatashiApi,localStorage: LocalStorage){
+        retro.deleteAllProductsFromShoppingCart(localStorage.panierId, localStorage.jwtToken).enqueue(object :
+            Callback<ResponseBody> {
+            @SuppressLint("RestrictedApi")
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                setResult(RESULT_OK)
+                finish()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("Error", t.message.toString())
+            }
+
+        })
+
     }
 }

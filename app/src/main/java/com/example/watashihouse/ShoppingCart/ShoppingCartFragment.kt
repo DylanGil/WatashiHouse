@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watashihouse.*
+import com.example.watashihouse.API.CommandeRequestId
 import com.example.watashihouse.Utils.LocalStorage
 import com.example.watashihouse.API.Retro
 import com.example.watashihouse.API.WatashiApi
@@ -41,6 +42,7 @@ class ShoppingCartFragment : Fragment() {
     private lateinit var validateShopppingButton: Button
     private lateinit var totalNumberText: TextView
     private var panierPrice = 0
+    private var panierMeubleId = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,6 +78,7 @@ class ShoppingCartFragment : Fragment() {
         validateShopppingButton.setOnClickListener {
             val intent = Intent(activity, ValidateShopping::class.java)
             intent.putExtra("panierPrice", panierPrice)
+            intent.putExtra("panierMeubleId", panierMeubleId)
             startActivityForResult(intent, 1)
         }
         primaryFunction()
@@ -125,35 +128,51 @@ class ShoppingCartFragment : Fragment() {
         retro.getUserProductFromShoppingCart(localStorage.userId, localStorage.jwtToken).enqueue(object : Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if(response.isSuccessful){
+                    panierMeubleId.removeAll(panierMeubleId)
                     //prix total du panier
                     val items = response.body()?.get("items")?.asJsonArray
                     val idPanier = response.body()?.get("id")?.asInt
                     panierPrice = response.body()?.get("price")?.asInt!!
                     var prixTotalPanier = response.body()?.get("price")?.asDouble
-                    if(prixTotalPanier == 0.0){}else{
+                    if(prixTotalPanier == 0.0){}else {
                         prixTotalPanier = prixTotalPanier?.div(100)
                         totalNumberText.text = prixTotalPanier.toString() + "€"
 
-                    //afficher tout les items du panier
-                    items?.forEach {item ->
-                        val monMeuble = item?.asJsonObject
-                        val id = monMeuble?.get("id").toString()
-                        var name = monMeuble?.get("name").toString().drop(1).dropLast(1)
-                        var price = monMeuble?.get("price")?.asDouble?.div(100)
-                        var description = monMeuble?.get("description").toString().drop(1).dropLast(1)
-                        var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
-                        var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
-                        var img3 = "image3"
-                        var img4 = "image4"
-                        if(monMeuble?.get("image3").toString() == "null")
-                            img3 = "image1"
-                        if(monMeuble?.get("image4").toString() == "null")
-                            img4 = "image2"
-                        img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
-                        img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
-                        val avis = 4.5F
+                        //afficher tout les items du panier
+                        items?.forEach { item ->
+                            val monMeuble = item?.asJsonObject
+                            val stock = monMeuble?.get("stock")?.asInt
+                            if(stock != 0){
+                                val id = monMeuble?.get("id").toString()
+                                var name = monMeuble?.get("name").toString().drop(1).dropLast(1)
+                                var price = monMeuble?.get("price")?.asDouble?.div(100)
+                                var description =
+                                    monMeuble?.get("description").toString().drop(1).dropLast(1)
+                                var img1 = monMeuble?.get("image1").toString().drop(1).dropLast(1)
+                                var img2 = monMeuble?.get("image2").toString().drop(1).dropLast(1)
+                                var img3 = "image3"
+                                var img4 = "image4"
+                                if (monMeuble?.get("image3").toString() == "null")
+                                    img3 = "image1"
+                                if (monMeuble?.get("image4").toString() == "null")
+                                    img4 = "image2"
+                                img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
+                                img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
+                                val avis = 4.5F
 
-                        listOfMeuble += MeubleDeleteButton(id, name, description, img1,img2,img3,img4, avis, price.toString());
+                                panierMeubleId.add(id)
+                                listOfMeuble += MeubleDeleteButton(
+                                    id,
+                                    name,
+                                    description,
+                                    img1,
+                                    img2,
+                                    img3,
+                                    img4,
+                                    avis,
+                                    price.toString()
+                                );
+                            }
                     }
 
                     recyclerViewMeuble.apply {
