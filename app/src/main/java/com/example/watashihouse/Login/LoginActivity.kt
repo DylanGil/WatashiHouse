@@ -36,8 +36,9 @@ class LoginActivity : AppCompatActivity() {
 
         checkIfAlreadyLog()
 
-        emailTxt.text = Editable.Factory.getInstance().newEditable("dga@gmail.com")
-        passwordTxt.text = Editable.Factory.getInstance().newEditable("dga")
+        //for dev
+        //emailTxt.text = Editable.Factory.getInstance().newEditable("dga@gmail.com")
+        //passwordTxt.text = Editable.Factory.getInstance().newEditable("dga")
 
         button.setOnClickListener {
             login()
