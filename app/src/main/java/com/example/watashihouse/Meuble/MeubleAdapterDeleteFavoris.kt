@@ -64,9 +64,9 @@ class MeubleAdapterDeleteFavoris(var items: List<Meuble>, favorisFragment: Favor
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
-            /*if(meuble.rating == -1f){
+            if(meuble.rating == -1f){
                 ratingBar.visibility = View.INVISIBLE
-            }*/
+            }
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
             addToCart.text = "Ajouter au panier"

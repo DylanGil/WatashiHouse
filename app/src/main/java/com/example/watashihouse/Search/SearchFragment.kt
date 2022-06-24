@@ -1,9 +1,11 @@
 package com.example.watashihouse.Search
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -19,6 +21,7 @@ import com.google.gson.JsonArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class SearchFragment : Fragment() {
 
@@ -47,16 +50,21 @@ class SearchFragment : Fragment() {
             override fun onResponse(call: Call<JsonArray>, response: Response<JsonArray>) {
                 if(response.isSuccessful){
 
-                    addButton(999,"Rechercher un article")
-                    val allSousCat = response.body()
-                    allSousCat?.forEach { element ->
-                        var sousCat = element.asJsonObject
-                        val id = sousCat?.get("id")?.asInt
-                        val name = sousCat?.get("name").toString().drop(1).dropLast(1)
-                        if (id != null) {
-                            addButton(id, name)
+                    try {
+                        addButton(999,"Rechercher un article")
+                        val allSousCat = response.body()
+                        allSousCat?.forEach { element ->
+                            var sousCat = element.asJsonObject
+                            val id = sousCat?.get("id")?.asInt
+                            val name = sousCat?.get("name").toString().drop(1).dropLast(1)
+                            if (id != null) {
+                                addButton(id, name)
+                            }
                         }
+                    }catch (i:IOException){
+                        Log.e("Erreur", i.message.toString())
                     }
+
                 }
                 progressBar.visibility = View.INVISIBLE
             }
@@ -71,6 +79,7 @@ class SearchFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     private fun addButton(id: Int, name: String){
         linearLayout = view?.findViewById(R.id.rootLayout)!!
         newButton = Button(context)

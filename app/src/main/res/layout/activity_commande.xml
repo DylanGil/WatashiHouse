@@ -29,13 +29,61 @@
             android:id="@+id/recyclerViewCommande"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_class_no_button"
+            android:paddingBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="@+id/bottomTotalShopping"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_class_no_button" />
 
+        <RelativeLayout
+            android:id="@+id/bottomTotalShopping"
+            android:layout_width="409dp"
+            android:layout_height="48dp"
+            android:visibility="invisible"
+            android:layout_marginTop="-48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewCommande"
+
+            >
+
+            <View
+                android:id="@+id/dividerTop"
+                android:layout_width="409dp"
+                android:layout_height="2dp"
+
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black"
+                android:backgroundTintMode="screen" />
+
+            <TextView
+                android:id="@+id/totalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dividerTop"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="14dp"
+                android:text="Prix :"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dividerTop"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="31dp"
+                android:gravity="right"
+                android:text="0.0€"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

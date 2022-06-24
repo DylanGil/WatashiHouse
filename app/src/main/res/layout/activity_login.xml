@@ -60,9 +60,10 @@
         android:autofillHints=""
         android:backgroundTint="@color/black"
         android:ems="10"
+        android:hint="Email"
+        android:textColorHint="@color/grey"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:hint="Email"
         android:textColor="@color/black" />
 
     <TextView
@@ -86,9 +87,10 @@
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/black"
         android:ems="10"
+        android:hint="Password"
+        android:textColorHint="@color/grey"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        android:hint="Password"
         android:textColor="@color/black" />
 
     <Button

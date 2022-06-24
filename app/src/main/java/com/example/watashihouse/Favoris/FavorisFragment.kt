@@ -110,7 +110,9 @@ class FavorisFragment : Fragment() {
                                     img4 = "image2"
                                 img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
                                 img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
-                                val avis = 4.5F
+                                var avis = -1.0f
+                                if(monMeuble?.get("note").toString() != "null")
+                                    avis = monMeuble?.get("note")?.asFloat!!
 
                                 listOfMeuble += Meuble(
                                     id,

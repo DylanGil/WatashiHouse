@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +24,8 @@ import retrofit2.Response
 class CommandeActivity : AppCompatActivity() {
     lateinit var recyclerViewMeuble: RecyclerView
     lateinit var loadingCircle: ProgressBar
+    lateinit var totalNumberText: TextView
+    lateinit var bottomTotalShopping: RelativeLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_commande)
@@ -30,6 +34,8 @@ class CommandeActivity : AppCompatActivity() {
 
         recyclerViewMeuble = findViewById(R.id.recyclerViewCommande)
         loadingCircle = findViewById(R.id.progressBar)
+        totalNumberText = findViewById(R.id.totalNumberText)
+        bottomTotalShopping = findViewById(R.id.bottomTotalShopping)
 
         val listOfMeuble = mutableListOf<Meuble>()
 
@@ -39,7 +45,7 @@ class CommandeActivity : AppCompatActivity() {
             retro.getCommande(commandeId, localStorage.jwtToken).enqueue(object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     if(response.isSuccessful){
-
+                        totalNumberText.text = response.body()?.get("totalPrice")?.asDouble?.div(100).toString() + "€"
                         val result = response.body()?.get("items")?.asJsonArray
 
                         result?.forEach{ element ->
@@ -74,6 +80,7 @@ class CommandeActivity : AppCompatActivity() {
                         }
                     }
                     loadingCircle.visibility = View.INVISIBLE
+                    bottomTotalShopping.visibility =  View.VISIBLE
 
                 }
 

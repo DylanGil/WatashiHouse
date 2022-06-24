@@ -18,6 +18,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
 class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapter.MeubleViewHolder>(), Filterable {
@@ -86,9 +87,9 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
-            /*if(meuble.rating == -1f){
+            if(meuble.rating == -1f){
                 ratingBar.visibility = View.INVISIBLE
-            }*/
+            }
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
             addToCart.text = "Ajouter au panier"
@@ -121,9 +122,13 @@ class MeubleAdapter(var items: List<Meuble>) : RecyclerView.Adapter<MeubleAdapte
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         Toast.makeText(itemView.rootView.context, meuble.title + " ajouté au panier", Toast.LENGTH_SHORT).show()
-                        val mainActivity = getActivity(itemView.context) as MainActivity
-                        mainActivity.addValueBadgeCount(1)
-
+                        if(getActivity(itemView.context)?.localClassName != "Search.SearchActivity"){
+                            val test = getActivity(itemView.context)
+                            val testt = test?.componentName.toString()
+                            val testtt = test?.localClassName
+                            val mainActivity = getActivity(itemView.context) as MainActivity
+                            mainActivity.addValueBadgeCount(1)
+                        }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

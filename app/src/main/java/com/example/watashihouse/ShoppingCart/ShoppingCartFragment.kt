@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +37,7 @@ class ShoppingCartFragment : Fragment() {
     private lateinit var deleteShoppingCartButton: Button
     private lateinit var validateShopppingButton: Button
     private lateinit var totalNumberText: TextView
+    lateinit var bottomTotalShopping: RelativeLayout
     private var panierPrice = 0
     private var panierMeubleId = ArrayList<String>()
 
@@ -56,6 +54,7 @@ class ShoppingCartFragment : Fragment() {
         recyclerViewMeuble = view.findViewById(R.id.recyclerViewShoppingCart) as RecyclerView
         loadingCircle = view.findViewById(R.id.progressBar) as ProgressBar
         totalNumberText = view.findViewById(R.id.totalNumberText) as TextView
+        bottomTotalShopping = view.findViewById(R.id.bottomTotalShopping)
         deleteShoppingCartButton = view.findViewById(R.id.deleteFavoriteButton)
         deleteShoppingCartButton.setOnClickListener {
             val retro = Retro().getRetroClientInstance().create(WatashiApi::class.java)
@@ -133,7 +132,9 @@ class ShoppingCartFragment : Fragment() {
                     val idPanier = response.body()?.get("id")?.asInt
                     panierPrice = response.body()?.get("price")?.asInt!!
                     var prixTotalPanier = response.body()?.get("price")?.asDouble
-                    if(prixTotalPanier == 0.0){}else {
+                    if(prixTotalPanier == 0.0){
+                        validateShopppingButton.isClickable = false
+                    }else {
                         prixTotalPanier = prixTotalPanier?.div(100)
                         totalNumberText.text = prixTotalPanier.toString() + "€"
 
@@ -157,7 +158,9 @@ class ShoppingCartFragment : Fragment() {
                                     img4 = "image2"
                                 img3 = monMeuble?.get(img3).toString().drop(1).dropLast(1)
                                 img4 = monMeuble?.get(img4).toString().drop(1).dropLast(1)
-                                val avis = 4.5F
+                                var avis = -1.0f
+                                if(monMeuble?.get("note").toString() != "null")
+                                    avis = monMeuble?.get("note")?.asFloat!!
 
                                 panierMeubleId.add(id)
                                 listOfMeuble += Meuble(
@@ -179,7 +182,8 @@ class ShoppingCartFragment : Fragment() {
                         adapter = MeubleAdapterDeleteButton(context,this@ShoppingCartFragment, listOfMeuble)
                     }
                 }
-                loadingCircle.visibility = View.INVISIBLE
+                    loadingCircle.visibility = View.INVISIBLE
+                    bottomTotalShopping.visibility =  View.VISIBLE
                 }
             }
 
@@ -187,6 +191,7 @@ class ShoppingCartFragment : Fragment() {
                 t.message?.let { Log.i("MON PUTAIN DE TAG", it) }
                 //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
                 loadingCircle.visibility = View.INVISIBLE
+                validateShopppingButton.isClickable = false
                 Toast.makeText(context, "Erreur serveur: Redémarrer l'application", Toast.LENGTH_SHORT).show()
             }
         })

@@ -67,8 +67,6 @@ class MeubleAdapterNoButton(var items: List<Meuble>) : RecyclerView.Adapter<Meub
         var meublePrice: TextView
         var meubleImage: ImageView
         var ratingBar: RatingBar
-        var addToCart: Button
-        var addToFavorite: Button
         var wichImg: Int
 
         init {
@@ -78,20 +76,17 @@ class MeubleAdapterNoButton(var items: List<Meuble>) : RecyclerView.Adapter<Meub
             meubleImage = itemView.findViewById(R.id.commandeImage)
             wichImg = 1
             ratingBar = itemView.findViewById(R.id.ratingBar)
-            addToCart = itemView.findViewById(R.id.addToCartButton)
-            addToFavorite = itemView.findViewById(R.id.addToFavoriteButton)
         }
 
         fun bind(meuble: Meuble) {
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
-            /*if(meuble.rating == -1f){
+            if(meuble.rating == -1f){
                 ratingBar.visibility = View.INVISIBLE
-            }*/
+            }
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
-            addToCart.text = "Ajouter au panier"
 
             meubleImage.setOnClickListener {
                 when(wichImg){

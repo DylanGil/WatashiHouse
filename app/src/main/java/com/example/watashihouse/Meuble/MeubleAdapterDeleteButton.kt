@@ -63,6 +63,9 @@ class MeubleAdapterDeleteButton(context : Context, shoppingCartFragment: Shoppin
             meubleTitle.text = meuble.title
             meubleSummary.text = meuble.summary
             Picasso.get().load(meuble.image1).into(meubleImage)
+            if(meuble.rating == -1f){
+                ratingBar.visibility = View.INVISIBLE
+            }
             ratingBar.rating = meuble.rating
             meublePrice.text = meuble.price + "€"
             deleteFromCart.text = "Supprimer du panier"
