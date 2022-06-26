@@ -118,7 +118,7 @@ class MeubleAdapterDeleteFavoris(var items: List<Meuble>, favorisFragment: Favor
                 retro.deleteFromFavoris(localStorage.favorisId, meuble.id, localStorage.jwtToken).enqueue(object : Callback<ResponseBody> {
                     @SuppressLint("RestrictedApi")
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        Toast.makeText(itemView.rootView.context, meuble.title + " supprimer des favoris", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(itemView.rootView.context, meuble.title + " supprimé des favoris", Toast.LENGTH_SHORT).show()
                         favorisFragment.refreshFragment(favorisFragment)
 
                     }
